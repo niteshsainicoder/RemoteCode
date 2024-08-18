@@ -16,7 +16,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="w-full bg-slate-300 h-16 flex justify-evenly items-center " >
+          <div className="w-6/12 h-fit text-center  ">
+            <p className="font-extrabold antialiased text-xl shadow-slate-500 ">
+              <span className="text-3xl font-extrabold">
+                &#8475;
+              </span>
+              emote
+              <span className="text-2xl font-extrabold">
+                &#264;
+              </span>
+              ode
+            </p>
+          </div>
+          <div className="w-6/12 h-fit  text-right flex justify-evenly gap-7 ">
+            <p>Signup</p>
+            <p> login</p>
+          </div>
+        </div>
+        {children}</body>
     </html>
   );
 }
