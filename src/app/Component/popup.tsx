@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface PopupProps {
     onClose: () => void;
@@ -9,18 +9,33 @@ interface PopupProps {
 const Popup: React.FC<PopupProps> = ({ onClose, onSave, currentName }) => {
     const [newName, setNewName] = useState<string>(currentName);
 
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    // Automatically focus the input field when the component mounts
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
+
+    const handleKeyPress = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onSave(newName);
+        }
+    }
     return (
-        <div className='absolute flex flex-col justify-center w-[300px] items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] bg-neutral-400 rounded-lg transform-gpu p-4'>
+        <div className='absolute flex flex-col justify-center w-[300px] transition ease-in-out items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] bg-gradient-to-r from-cyan-100 to-cyan-800 rounded-lg transform-gpu p-4'>
             <label htmlFor="newname" className='text-xl font-medium'>
                 File Name
             </label>
             <input
+                ref={inputRef} // Attach ref to the input field
                 type="text"
                 id='newname'
-                placeholder='Enter the file name'
-                value={newName}
+                placeholder={newName}
+                onKeyDown={handleKeyPress}
                 onChange={(e) => setNewName(e.target.value)}
-                className='border-2 rounded-2xl outline-1 mx-4 px-4 py-2 w-full'
+                className='border-2 rounded-2xl outline-1 text-black mx-4 px-4 py-2 w-full'
             />
             <div className='flex justify-evenly items-center w-full mt-5'>
                 <button
