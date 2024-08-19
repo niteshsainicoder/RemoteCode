@@ -34,8 +34,8 @@ const CodeEditor: React.FC = () => {
     };
 
     return (
-        <div className={`w-full max-w-[900px] relative max-h-[600px] h-full min-h-[500px]  transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
-            <div className='flex items-center p-2 gap-5'>
+        <div className={`w-full max-w-[900px] relative  h-[500px] min-h-[500px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
+            <div className='flex items-center p-2 mb-2 gap-5'>
                 <h1 className='px-2 p-2 w-40 text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
                 <button
                     type='reset'
@@ -65,10 +65,12 @@ const CodeEditor: React.FC = () => {
             <Editor
                 defaultLanguage={language}
                 language={language}
+               
                 theme={theme}
                 defaultValue='// Write Your Code here!'
                 onMount={handleEditorDidMount}
                 onChange={handleEditorChange}
+                
             />
             {showPopup && (
                 <Popup
