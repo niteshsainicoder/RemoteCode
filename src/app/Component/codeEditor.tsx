@@ -65,7 +65,6 @@ const CodeEditor: React.FC = () => {
             <Editor
                 defaultLanguage={language}
                 language={language}
-               
                 theme={theme}
                 defaultValue='// Write Your Code here!'
                 onMount={handleEditorDidMount}
