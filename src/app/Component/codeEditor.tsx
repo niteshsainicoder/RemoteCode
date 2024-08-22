@@ -47,7 +47,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
         }
     };
     return (
-        <div className={`w-full max-w-[900px] relative  h-[500px] min-h-[500px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
+            <div className={`w-full max-w-[900px] relative  h-[500px] min-h[500px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
             <div className='flex items-center p-2 mb-2 gap-5'>
                 <h1 className='px-2 p-2 w-40 text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
                 <button

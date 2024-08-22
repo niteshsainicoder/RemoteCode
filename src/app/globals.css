@@ -7,6 +7,17 @@ body {
   color: black;
  
 }
+/* Hide scrollbars but keep scrolling */
+.hide-scrollbars {
+  overflow: hidden; /* Hide scrollbars */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.hide-scrollbars::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and newer versions of Edge */
+}
+
 
 @layer utilities {
   .text-balance {
