@@ -3,8 +3,9 @@ import { Editor } from '@monaco-editor/react';
 import * as monacoEditor from 'monaco-editor';
 import React, { useRef, useState } from 'react';
 import Popup from './popup';
+import axios from 'axios';
 
-const CodeEditor: React.FC = () => {
+const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => void }> = ({ onCodeExecute }) => {
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
     const [code, setCode] = useState<string>('');
     const [theme, setTheme] = useState<string>('vs-dark');
@@ -32,7 +33,19 @@ const CodeEditor: React.FC = () => {
         setFileName(newName);
         setShowPopup(false);  // Close the popup after saving
     };
-
+    const handleRunCode = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/api/code/execute', {
+                codeContent: code,
+                language: language,
+            });
+            console.log('run');
+            
+            onCodeExecute(response.data.output, response.data.error);
+        } catch (err) {
+            onCodeExecute('', 'Failed to execute code');
+        }
+    };
     return (
         <div className={`w-full max-w-[900px] relative  h-[500px] min-h-[500px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
             <div className='flex items-center p-2 mb-2 gap-5'>
@@ -49,6 +62,12 @@ const CodeEditor: React.FC = () => {
                     className='text-sm'
                 >
                     Theme
+                </button>
+                <button
+                    onClick={handleRunCode}
+                    className='text-sm'
+                >
+                    run
                 </button>
                 <select
                     title='lang'
@@ -69,7 +88,7 @@ const CodeEditor: React.FC = () => {
                 defaultValue='// Write Your Code here!'
                 onMount={handleEditorDidMount}
                 onChange={handleEditorChange}
-                
+
             />
             {showPopup && (
                 <Popup
