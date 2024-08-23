@@ -40,15 +40,15 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 language: language,
             });
             console.log('run');
-            
+
             onCodeExecute(response.data.output, response.data.error);
         } catch (err) {
             onCodeExecute('', 'Failed to execute code');
         }
     };
     return (
-            <div className={`w-full max-w-[900px] relative  h-[500px] min-h[500px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
-            <div className='flex items-center p-2 mb-2 gap-5'>
+        <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
+            <div className='flex items-center flex-wrap p-2 mb-2 gap-5'>
                 <h1 className='px-2 p-2 w-40 text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
                 <button
                     type='reset'
@@ -57,18 +57,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 >
                     &#9998;
                 </button>
-                <button
-                    onClick={() => setTheme(theme === 'vs-dark' ? 'light' : 'vs-dark')}
-                    className='text-sm'
-                >
-                    Theme
-                </button>
-                <button
-                    onClick={handleRunCode}
-                    className='text-sm'
-                >
-                    run
-                </button>
+
                 <select
                     title='lang'
                     className={`rounded-md text-sm border p-2 text-center ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'}`}
@@ -80,6 +69,19 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                     <option value="python">Python</option>
                     <option value="cpp">C++</option>
                 </select>
+
+                <button
+                    onClick={() => setTheme(theme === 'vs-dark' ? 'light' : 'vs-dark')}
+                    className='text-sm hover:bg-zinc-800 px-3 py-2 rounded-xl'
+                >
+                    Theme
+                </button>
+                <button
+                    onClick={handleRunCode}
+                    className='text-sm hover:bg-zinc-800 px-3 py-2 rounded-xl'
+                >
+                    run
+                </button>
             </div>
             <Editor
                 defaultLanguage={language}
@@ -88,6 +90,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 defaultValue='// Write Your Code here!'
                 onMount={handleEditorDidMount}
                 onChange={handleEditorChange}
+
 
             />
             {showPopup && (

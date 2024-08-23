@@ -1,10 +1,55 @@
 'use client'
 import CodeEditor from "./Component/codeEditor";
-import RecentFiles from "./Component/RecentFiles";
+import RecentFiles from "./Component/Recentfiles";
 import { useState } from "react";
+import Terminal from "./Component/Terminal";
+import LoginSignup from "./Component/loginSignup";
 export default function Home() {
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');
+  const [openFileIndex, setOpenFileIndex] = useState<number | null>(null); // Track the open file index
+
+  const data: {
+    fileName: string;
+    lastOpened: string;
+    language: string;
+    fileSize: string;
+    filePath: string;
+}[] = [
+  {
+    "fileName": "app.py",
+    "lastOpened": "2024-08-23T09:15:00Z",
+    "language": "Python",
+    "fileSize": "3.2 KB",
+    "filePath": "/user/files/app.py"
+  },
+  {
+    "fileName": "script.js",
+    "lastOpened": "2024-08-22T16:45:00Z",
+    "language": "JavaScript",
+    "fileSize": "4.1 KB",
+    "filePath": "/user/files/script.js"
+  },
+  {
+    "fileName": "data_analysis.py",
+    "lastOpened": "2024-08-21T14:32:00Z",
+    "language": "Python",
+    "fileSize": "2.8 KB",
+    "filePath": "/user/files/data_analysis.py"
+  },
+  {
+    "fileName": "utilities.js",
+    "lastOpened": "2024-08-20T11:30:00Z",
+    "language": "JavaScript",
+    "fileSize": "1.9 KB",
+    "filePath": "/user/files/utilities.js"
+  }
+];
+
+
+  const handleToggle = (index: number) => {
+    setOpenFileIndex(openFileIndex === index ? null : index); // Toggle the open state
+  };
   const onCodeExecute = (output: string, error: string) => {
     setoutput(output)
     seterror(error);
@@ -12,19 +57,29 @@ export default function Home() {
 
   }
 
+
   return (
-    <main className=" flex flex-col gap-2 md:flex-row relative  max-h-full min-h-[500px] h-full bg-neutral-900  items-start justify-evenly p-4 ">
-      <div className=" hidden lg:block   w-1/6 bg-black h-screen max-h-[500px] text-white "> <RecentFiles /> </div>
-      <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-full max-h-[500px] min-h-[fit] bg-green-300 md:w-4/6 flex justify-center items-center">
-        <CodeEditor onCodeExecute={onCodeExecute} />
+    <main className=" flex flex-col-reverse gap-2 md:flex-row relative  max-h-full min-h-[screen] h-full border-2 rounded-lg border-zinc-700 bg-neutral-900  items-start justify-evenly px-4 py-4 ">
+      <div className="relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[500px] bg-zinc-700 md:w-2/6 flex flex-col">
+        <div className="flex flex-col gap-[1px] min-h-[500px]">
+          <RecentFiles
+            title="Recent Files"
+            data={data}
+            isOpen={openFileIndex === 0}
+            onToggle={() => handleToggle(0)}
+            classname=""
+          />
+          <Terminal
+            title="Terminal "
+            data="// Your output is here"
+            isOpen={openFileIndex === 1}
+            onToggle={() => handleToggle(1)}
+            classname=""
+          />
+        </div>
       </div>
-      <div className="hidden md:block md:w-2/6 lg:w-1/6 bg-zinc-900 max-h-[500px] border-2 rounded-lg border-zinc-700 min-h-[500px] h-full text-white p-4">
-        <div className="bg-gray-800 rounded-lg p-4 mb-3  overflow-y-auto h-full">
-          <pre className="whitespace-pre-wrap cursor-pointer break-words">output </pre>
-        </div>
-        <div className="w-full h-full min-h-full min-w-full border-black border">
-          <pre className="whitespace-pre-wrap w-full h-full min-h-full cursor-pointer break-words" >by the way default output good not need</pre>
-        </div>
+      <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-fit max-h-[full] min-h-[fit] md:w-4/6 flex justify-center items-center">
+        <CodeEditor onCodeExecute={onCodeExecute} />
       </div>
     </main >
   );

@@ -18,6 +18,18 @@ body {
   display: none; /* For Chrome, Safari, and newer versions of Edge */
 }
 
+/* Custom blinking cursor */
+.blinking-cursor::after {
+  content: '_';
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
 
 @layer utilities {
   .text-balance {

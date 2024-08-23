@@ -1,6 +1,9 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="w-full bg-slate-300 h-16 flex justify-evenly items-center " >
+      <body className={`  ${inter.className} bg-zinc-800 border-t-2 border-zinc-900 rounded-lg `}>
+        <div className="w-full  h-16 flex justify-evenly items-center " >
           <div className="w-6/12 h-fit text-center  ">
-            <p className="font-extrabold antialiased text-xl shadow-slate-500 ">
+            <p className="font-extrabold antialiased text-xl text-zinc-200 shadow-slate-500 ">
               <span className="text-3xl font-extrabold">
                 &#8475;
               </span>
@@ -31,8 +34,9 @@ export default function RootLayout({
             </p>
           </div>
           <div className="w-6/12 h-fit  text-right flex justify-evenly gap-7 ">
-            <p>Signup</p>
-            <p> login</p>
+          <Link className={`link text-zinc-200`} href="/login">
+       login
+      </Link>  
           </div>
         </div>
         {children}</body>

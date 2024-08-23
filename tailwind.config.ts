@@ -8,6 +8,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        blink: "blink 1s steps(2, start) infinite",
+      },
+      keyframes: {
+        blink: {
+          "0%": { visibility: "visible" },
+          "50%": { visibility: "hidden" },
+          "100%": { visibility: "visible" },
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
