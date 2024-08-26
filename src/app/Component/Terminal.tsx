@@ -14,7 +14,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, onToggle, clas
 
             <p
                 onClick={onToggle}
-                className='w-full h-10  cursor-pointer font-bold antialiased text-center pt-2 bg-zinc-600 flex text-neutral-400 justify-between px-9 items-center'
+                className='w-full h-10  cursor-pointer font-bold antialiased text-center pt-2 bg-zinc-700 flex text-neutral-400 justify-between px-9 items-center'
             >
                 {title}
                 <span
