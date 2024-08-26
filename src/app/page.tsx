@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <main className=" flex flex-col-reverse gap-2 md:flex-row relative  max-h-full min-h-[screen] h-full border-2 rounded-lg border-zinc-700 bg-neutral-900  items-start justify-evenly px-4 py-4 ">
-      <div className="relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[500px] bg-zinc-700 md:w-2/6 flex flex-col">
+      <div className="relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[500px] bg-zinc-800 md:w-2/6 flex flex-col">
         <div className="flex flex-col gap-[1px] min-h-[500px]">
           <RecentFiles
             title="Recent Files"
