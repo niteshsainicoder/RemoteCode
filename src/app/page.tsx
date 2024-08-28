@@ -3,7 +3,6 @@ import CodeEditor from "./Component/codeEditor";
 import RecentFiles from "./Component/Recentfiles";
 import { useState } from "react";
 import Terminal from "./Component/Terminal";
-import LoginSignup from "./Component/loginSignup";
 export default function Home() {
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');

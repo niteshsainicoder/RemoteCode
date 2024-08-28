@@ -7,15 +7,29 @@ body {
   color: black;
  
 }
-/* Hide scrollbars but keep scrolling */
-.hide-scrollbars {
-  overflow: hidden; /* Hide scrollbars */
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
 
-.hide-scrollbars::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and newer versions of Edge */
+
+@layer base {
+  /* Remove scrollbar */
+  .remove-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    border-radius: 0px;
+  }
+
+  .remove-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .remove-scrollbar::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 0px;
+  }
+
+  .remove-scrollbar::-webkit-scrollbar-thumb:hover {
+    /* background: #1e2238; */
+    background: transparent;
+  }
 }
 
 /* Custom blinking cursor */
