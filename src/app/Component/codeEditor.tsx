@@ -48,8 +48,8 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     };
     return (
         <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
-            <div className='flex items-center flex-wrap p-2 mb-2 gap-5'>
-                <h1 className='px-2 p-2 w-40 text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
+            <div className='flex items-center flex-wrap p-1 mb-2 gap-5'>
+                <h1 className='px-1 p-1 w-40 text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
                 <button
                     type='reset'
                     className={`rotate-90 text-2xl ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'} rounded-full p-1`}
@@ -60,7 +60,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
                 <select
                     title='lang'
-                    className={`rounded-md text-sm border p-2 text-center ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'}`}
+                    className={`rounded-md text-sm border p-1 text-center ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'}`}
                     value={language}
                     onChange={handleLanguageChange}
                 >
@@ -72,16 +72,16 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
                 <button
                     onClick={() => setTheme(theme === 'vs-dark' ? 'light' : 'vs-dark')}
-                    className='text-sm hover:bg-zinc-800 px-3 py-2 rounded-xl'
+                    className='text-sm hover:bg-zinc-800 px-2 py-2 rounded-xl'
                 >
                     Theme
                 </button>
-                <button
+                <p 
                     onClick={handleRunCode}
                     className='text-sm hover:bg-zinc-800 px-3 py-2 rounded-xl'
                 >
                     run
-                </button>
+                </p>
             </div>
             <Editor
                 defaultLanguage={language}
