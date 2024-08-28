@@ -25,19 +25,19 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, onToggle, clas
             </p>
 
             <div
-  className={`transition-max-height duration-300 ease-in-out px-3  bg-black text-green-500 font-mono overflow-auto ${isOpen ? 'max-h-[450px] pb-12 pt-8' : 'max-h-0 p-0'
-    }`}
->
-  <pre className="w-full h-fit whitespace-pre-wrap break-words">
-    {`// Your output is here \n`}
-   {` $ node script.js 1 2 3 4 5
+                className={`transition-max-height duration-300 ease-in-out px-3  bg-black text-green-500 remove-scrollbar font-mono overflow-auto ${isOpen ? 'max-h-[450px] pb-12 pt-8' : 'max-h-0 p-0'
+                    }`}
+            >
+                <pre className="w-full h-fit whitespace-pre-wrap break-words">
+                    {`// Your output is here \n`}
+                    {` $ node script.js 1 2 3 4 5
     Hello, JavaScript!
     Calculating sum of numbers from 1 to 5...
     The sum is: 15
     Execution time: 2ms`}
-    <span className="blinking-cursor"></span>
-  </pre>
-</div>
+                    <span className="blinking-cursor"></span>
+                </pre>
+            </div>
 
 
 

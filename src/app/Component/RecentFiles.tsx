@@ -32,7 +32,7 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ title, data, isOpen, onToggle
       </p>
 
       <div
-        className={`transition-max-height scroll-smooth duration-300 ease-in-out px-1 flex flex-col gap-[1px]  overflow-auto ${isOpen ? 'max-h-[450px] pb-12  pt-8' : '  max-h-0 p-0'}`}
+        className={`transition-max-height remove-scrollbar scroll-smooth duration-300 ease-in-out px-1 flex flex-col gap-[1px]  overflow-auto ${isOpen ? 'max-h-[450px] pb-12  pt-8' : '  max-h-0 p-0'}`}
       >
         {data.map((value: any,index:number) => (<p key={value.fileName} onClick={() => console.log(value.fileName)} className='w-full hover:bg-neutral-800 hover:border-zinc-700 border-zinc-900 border
        transition-all rounded bg-zinc-900 pl-4 text-left flex items-center p-2 text-white '>{index+1} {value.fileName}</p>))}
