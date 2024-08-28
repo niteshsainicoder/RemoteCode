@@ -24,7 +24,7 @@ const Popup: React.FC<PopupProps> = ({ onClose, onSave, currentName }) => {
         }
     }
     return (
-        <div className='absolute flex flex-col justify-center w-[300px] transition ease-in-out items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] bg-gradient-to-r from-cyan-100 to-cyan-800 rounded-lg transform-gpu p-4'>
+        <div className='absolute flex flex-col justify-center w-[300px] transition ease-in-out items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] bg-gradient-to-r from-zinc-700 to-neutral-700 rounded-lg transform-gpu p-4'>
             <label htmlFor="newname" className='text-xl font-medium'>
                 File Name
             </label>
