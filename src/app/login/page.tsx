@@ -19,7 +19,7 @@ const LoginSignup = () => {
                     setPassword(e.target.value);
                 }} className='w-11/12 md:w-9/12 h-9 rounded-xl border-2hover:border-teal-400 pl-4 text-wrap ' />
                 <button type='submit' className='py-1 rounded-lg  bg-red-400  px-5' >LogIn</button>
-                <h6>{`don't have account yet,`}<span className='text-blue-300' >  <Link href="/login/signup" >click here</Link></span></h6>
+                <h6>{`don't have account yet,`}<span className='text-blue-300' >  <Link href="/signup" >click here</Link></span></h6>
               
                 <Link className={` font-semibold antialiased  left-2 top-2 md:top-4 absolute link `} href="/">
                 {`<-`}back to home
