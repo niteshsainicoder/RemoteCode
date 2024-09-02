@@ -7,7 +7,7 @@ interface IUser extends Document {
   email: string;
   password: string;
   token: string;
-  codeExecutions: Types.ObjectId[];
+  codemodel: [Types.ObjectId[]];
 }
 
 // Define the User schema
@@ -16,7 +16,7 @@ const userSchema: Schema<IUser> = new Schema(
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    codeExecutions: [{ type: Types.ObjectId, ref: "Code" }], // Correctly specify this as an array
+    codemodel: [{ type:Schema.Types.ObjectId, ref: "Code" }], // Correctly specify this as an array
     token: { type: String, required: true, unique: true },
   },
   { timestamps: true }
