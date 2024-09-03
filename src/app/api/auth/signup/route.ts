@@ -7,12 +7,12 @@ import { dbconnect } from "@/dbconfig/dbconnect";
 if (!process.env.JWT_SECRET) {
   throw new Error("JWT Secret not set in environment variables");
 }
+dbconnect();
 
 // Signup Handler
 export async function POST(request: NextRequest) {
   try {
     // Ensure that the database is connected before proceeding
-    await dbconnect();
 
     const body = await request.json();
     const { username, email, password } = body;

@@ -6,7 +6,7 @@ import { dbconnect } from "@/dbconfig/dbconnect";
 
 export async function POST(req: NextRequest) {
   try {
-    await dbconnect();
+    dbconnect();
     const rawBody = await req.text();
 
     const body = JSON.parse(rawBody);
