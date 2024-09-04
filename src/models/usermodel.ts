@@ -8,6 +8,7 @@ interface IUser extends Document {
   password: string;
   token: string;
   codemodel: [Types.ObjectId[]];
+  verified:boolean
 }
 
 // Define the User schema
@@ -17,7 +18,8 @@ const userSchema: Schema<IUser> = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     codemodel: [{ type:Schema.Types.ObjectId, ref: "Code" }], // Correctly specify this as an array
-    token: { type: String, required: true, unique: true },
+    token: { type: String ,default:""},
+    verified:{type:Boolean, default:false}
   },
   { timestamps: true }
 );
