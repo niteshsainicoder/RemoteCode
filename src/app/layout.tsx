@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`  ${inter.className} remove-scrollbar bg-zinc-900 border-t-2 px-1 border-zinc-900 rounded-lg `}>
+      <body className={`  ${inter.className} remove-scrollbar caret-transparent bg-zinc-900 border-t-2 px-1 border-zinc-900 rounded-lg `}>
         <div className="w-full bg-zinc-800  h-16 flex justify-evenly items-center " >
           <div className="w-6/12 h-fit text-center  ">
             <p className="font-extrabold antialiased text-xl text-zinc-200 shadow-slate-500 ">
