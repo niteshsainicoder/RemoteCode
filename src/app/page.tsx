@@ -7,43 +7,43 @@ export default function Home() {
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');
   const [openFileIndex, setOpenFileIndex] = useState<number | null>(null); // Track the open file index
-
+  const [user, setuser] = useState<string | null>('')
   const data: {
     fileName: string;
     lastOpened: string;
     language: string;
     fileSize: string;
     filePath: string;
-}[] = [
-  {
-    "fileName": "app.py",
-    "lastOpened": "2024-08-23T09:15:00Z",
-    "language": "Python",
-    "fileSize": "3.2 KB",
-    "filePath": "/user/files/app.py"
-  },
-  {
-    "fileName": "script.js",
-    "lastOpened": "2024-08-22T16:45:00Z",
-    "language": "JavaScript",
-    "fileSize": "4.1 KB",
-    "filePath": "/user/files/script.js"
-  },
-  {
-    "fileName": "data_analysis.py",
-    "lastOpened": "2024-08-21T14:32:00Z",
-    "language": "Python",
-    "fileSize": "2.8 KB",
-    "filePath": "/user/files/data_analysis.py"
-  },
-  {
-    "fileName": "utilities.js",
-    "lastOpened": "2024-08-20T11:30:00Z",
-    "language": "JavaScript",
-    "fileSize": "1.9 KB",
-    "filePath": "/user/files/utilities.js"
-  }
-];
+  }[] = [
+      {
+        "fileName": "app.py",
+        "lastOpened": "2024-08-23T09:15:00Z",
+        "language": "Python",
+        "fileSize": "3.2 KB",
+        "filePath": "/user/files/app.py"
+      },
+      {
+        "fileName": "script.js",
+        "lastOpened": "2024-08-22T16:45:00Z",
+        "language": "JavaScript",
+        "fileSize": "4.1 KB",
+        "filePath": "/user/files/script.js"
+      },
+      {
+        "fileName": "data_analysis.py",
+        "lastOpened": "2024-08-21T14:32:00Z",
+        "language": "Python",
+        "fileSize": "2.8 KB",
+        "filePath": "/user/files/data_analysis.py"
+      },
+      {
+        "fileName": "utilities.js",
+        "lastOpened": "2024-08-20T11:30:00Z",
+        "language": "JavaScript",
+        "fileSize": "1.9 KB",
+        "filePath": "/user/files/utilities.js"
+      }
+    ];
 
 
   const handleToggle = (index: number) => {
