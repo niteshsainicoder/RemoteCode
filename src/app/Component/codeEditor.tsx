@@ -40,10 +40,19 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 language: language,
             });
             console.log('run');
+            if (response.status === 200) {
+                onCodeExecute(response.data.output, response.data.error);
+                console.log('ok');
+                
+            }
+            if (response.status === 500) {
+                onCodeExecute('',response.data.error);
 
-            onCodeExecute(response.data.output, response.data.error);
+            }
+
         } catch (err) {
             onCodeExecute('', 'Failed to execute code');
+
         }
     };
     return (
@@ -76,7 +85,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 >
                     Theme
                 </button>
-                <p 
+                <p
                     onClick={handleRunCode}
                     className='text-sm hover:bg-zinc-800 px-3 py-2 rounded-xl'
                 >
