@@ -4,6 +4,7 @@ import * as monacoEditor from 'monaco-editor';
 import React, { useRef, useState } from 'react';
 import Popup from './popup';
 import axios from 'axios';
+import { useAppContext } from '@/Context/context';
 
 const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => void }> = ({ onCodeExecute }) => {
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
@@ -12,7 +13,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     const [language, setLanguage] = useState<string>('javascript');
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [fileName, setFileName] = useState<string>('Title of your file');
-
+    const { userData, setuserData } = useAppContext();
     const handleEditorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor) => {
         editorRef.current = editor;
         console.log(editor);
@@ -43,10 +44,10 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             if (response.status === 200) {
                 onCodeExecute(response.data.output, response.data.error);
                 console.log('ok');
-                
+
             }
             if (response.status === 500) {
-                onCodeExecute('',response.data.error);
+                onCodeExecute('', response.data.error);
 
             }
 
@@ -55,9 +56,21 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
         }
     };
+    const save = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/api/code/save", { userId: userData.id, codeContent: code, language: language, title: fileName }, { withCredentials: true })
+            if (response.status === 200) {
+                setuserData({ ...userData,  recentfiles:[...userData.recentfiles,response.data.model]  })
+                console.log(response,"nice");
+            }
+        } catch (error) {
+
+        }
+    }
+    
     return (
         <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
-            <div className='flex items-center flex-wrap p-1 px-2 mb-2 gap-5'>
+            <div className='flex items-center flex-wrap p-1 px-2 mb-2 gap-4'>
                 <h1 className='px-1 p-1 w-fit min-w-20 max-w-40  text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
                 <button
                     type='reset'
@@ -81,16 +94,23 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
                 <button
                     onClick={() => setTheme(theme === 'vs-dark' ? 'light' : 'vs-dark')}
-                    className='text-sm hover:bg-zinc-800 px-2 py-2 rounded-xl'
+                    className={`text-sm ${theme === ' vs-dark' ? ' hover:bg-zinc-800' : 'hover:bg-zinc-400'} px-2 py-2 rounded-xl`}
                 >
                     Theme
                 </button>
                 <p
                     onClick={handleRunCode}
-                    className='text-sm hover:bg-zinc-800 px-3 py-2 rounded-xl'
+                    className='text-sm cursor-pointer hover:bg-zinc-800 px-3 py-2 rounded-xl'
                 >
                     run
                 </p>
+             {userData.id &&   <p
+                    onClick={save}
+                    className='text-sm cursor-pointer rotate-3  hover:bg-zinc-800 px-2 py-1 rounded-xl'
+                >
+                    💾
+
+                </p>}
             </div>
             <Editor
                 defaultLanguage={language}
