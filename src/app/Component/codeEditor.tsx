@@ -1,19 +1,32 @@
 'use client'
 import { Editor } from '@monaco-editor/react';
 import * as monacoEditor from 'monaco-editor';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Popup from './popup';
 import axios from 'axios';
 import { useAppContext } from '@/Context/context';
 
+
+
+interface FileData {
+    codeContent: string,
+    language: string,
+    title: string,
+    _id: string
+}
+
+
+
 const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => void }> = ({ onCodeExecute }) => {
+    const { userData, setuserData } = useAppContext();
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
     const [code, setCode] = useState<string>('');
+    const [recentfile, setrecentfile] = useState<FileData[]>(userData?.recentfiles || [])
     const [theme, setTheme] = useState<string>('vs-dark');
+    const [savefile, setsavefile] = useState<FileData[]>([]);
     const [language, setLanguage] = useState<string>('javascript');
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [fileName, setFileName] = useState<string>('Title of your file');
-    const { userData, setuserData } = useAppContext();
     const handleEditorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor) => {
         editorRef.current = editor;
         console.log(editor);
@@ -58,16 +71,39 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     };
     const save = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/api/code/save", { userId: userData.id, codeContent: code, language: language, title: fileName }, { withCredentials: true })
-            if (response.status === 200) {
-                setuserData({ ...userData,  recentfiles:[...userData.recentfiles,response.data.model]  })
-                console.log(response,"nice");
-            }
-        } catch (error) {
+            const response = await axios.post(
+                "http://localhost:3000/api/code/save",
+                {
+                    userId: userData.id,
+                    codeContent: code,
+                    language: language,
+                    title: fileName
+                },
+                { withCredentials: true }
+            );
 
+            const newFile = {
+                _id: response.data.model._id,
+                codeContent: response.data.model.codeContent,
+                language: response.data.model.language,
+                title: response.data.model.title,
+                userId: userData.id
+            };
+
+            // Create a new array without using the spread operator
+            const updatedFiles = userData.recentfiles.concat(newFile);
+
+            // Manually update userData
+            setuserData({
+                id: userData.id,
+                name: userData.name,
+                recentfiles: updatedFiles // Assign the new array
+            });
+        }
+        catch (error) {
+            console.log("Save failed:", error);
         }
     }
-    
     return (
         <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
             <div className='flex items-center flex-wrap p-1 px-2 mb-2 gap-4'>
@@ -104,7 +140,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 >
                     run
                 </p>
-             {userData.id &&   <p
+                {userData.id && <p
                     onClick={save}
                     className='text-sm cursor-pointer rotate-3  hover:bg-zinc-800 px-2 py-1 rounded-xl'
                 >
