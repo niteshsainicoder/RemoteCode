@@ -2,10 +2,18 @@
 import { createContext, useContext, useState } from "react";
 
 // Define a proper type for the userData state
+
+interface FileData {
+    codeContent: string,
+    language: string,
+    title: string,
+    _id: string
+  }
+
 interface UserDataType {
     name: string;
     id: string;
-    recentfiles: string[];
+    recentfiles: FileData[];
 }
 
 // Define the AppContextType with proper types
@@ -16,7 +24,7 @@ interface AppContextType {
 
 // Set up the context with a proper default value for userData
 const AppContext = createContext<AppContextType>({
-    userData: {id:'', name: 'nitesh', recentfiles: [] }, 
+    userData: {id:'', name: '', recentfiles: [] }, 
     setuserData: () => { }
 });
 
