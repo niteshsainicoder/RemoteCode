@@ -19,8 +19,6 @@ export function middleware(request: NextRequest) {
       ?.split("=")[1]; // Extract the token value
   }
 
-  console.log(token);
-
   if (!token) {
     console.log("no token found");
     return NextResponse.json(
@@ -32,12 +30,10 @@ export function middleware(request: NextRequest) {
   try {
     // Verify the token using your JWT secret
     const isValid = verifyJwt(token, secret);
-    console.log(isValid, "Token verified");
-
     if (!isValid) {
       throw new Error("Invalid token");
     }
-
+    const payload = decodeJwt(token);
     // If the token is valid, allow the request to proceed
     return NextResponse.next();
   } catch (err) {
@@ -52,5 +48,5 @@ export function middleware(request: NextRequest) {
 
 // Apply this middleware to specific routes
 export const config = {
-  matcher: ["/api/code/:path*", "/api/auth/login"], // Apply to all API routes
+  matcher: ["/api/code/:path*", ], // Apply to all API routes
 };
