@@ -1,35 +1,113 @@
-'use client'
-import Link from 'next/link'
-import React, { useState } from 'react'
+'use client';
+import { useAppContext } from '@/Context/context';
+import axios from 'axios';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 const LoginSignup = () => {
-    const [gmail, setGmail] = useState<string | null>('')
-    const [password, setPassword] = useState<string | null>('')
-    const Login = () => {
+    const { userData, setuserData } = useAppContext();
 
-        if (gmail === '' && password === 'admin') {
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<boolean>(false);
+    const [wrong, setWrong] = useState<boolean>(false);
+    const [response, setResponse] = useState<any>(null);
 
+    const [status, setStatus] = useState<number | null>(null);
+
+    useEffect(() => {
+        setResponse(null);
+        setUsername('');
+        setPassword('');
+        setError(false);
+        setWrong(false);
+        setStatus(null);
+    }, []);
+
+    const Login = async () => {
+        // Reset error state
+        setError(false);
+
+        if (!username || !password) {
+            setError(true);
+            console.log('All fields are required');
+            return;
         }
 
-        return (
+        try {
+            const response = await axios.post('http://localhost:3000/api/auth/login', {
+                username,
+                password,
+            }, { withCredentials: true });
+            setStatus(response.status);
+            setResponse(response.data);
+            console.log(response.data);
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setStatus(error.response.status);
+            }
+            console.error('Login failed:', error);
+            setError(true);
+        }
+    };
 
-            <div className=' h-screen w-screen flex flex-col justify-center items-center'>
-                <div className='w-11/12 m-4 md:w-[400px] transition-all relative bg-zinc-500 h-[300px] flex flex-col gap-3 rounded-md justify-center items-center'>
-                    <span className='text-3xl font-bold antialiased text-zinc-800 '>Account</span>
-                    <input type="text" placeholder='email address' onChange={(e) => {
-                        setGmail(e.target.value);
-                    }} className=' w-11/12 md:w-9/12 h-9 rounded-xl border-2hover:border-teal-400 pl-4 text-wrap ' />
-                    <input type="password" placeholder=' password' onChange={(e) => {
-                        setPassword(e.target.value);
-                    }} className='w-11/12 md:w-9/12 h-9 rounded-xl border-2hover:border-teal-400 pl-4 text-wrap ' />
-                    <button type='submit' className='py-1 rounded-lg  bg-red-400  px-5' >LogIn</button>
-                    <h6>{`don't have account yet,`}<span className='text-blue-300' >  <Link href="/signup" >click here</Link></span></h6>
+    useEffect(() => {
+        if (status === 400) {
+            setPassword('');
+            setUsername('');
+            setWrong(true);
+            setTimeout(() => {
+                setWrong(false);
+            }, 3000);
+        } else if (status === 200) {
+            setPassword('');
+            setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel })
+            
+            setUsername('');
+            
+        }
+    }, [status]);
 
-                    <Link className={` font-semibold antialiased  left-2 top-2 md:top-4 absolute link `} href="/">
-                        {`<-`}back to home
-                    </Link>             </div>
+    return (
+        <div className='h-screen w-screen flex flex-col justify-center items-center'>
+            <div className='w-11/12 m-4 md:w-[400px] transition-all relative bg-zinc-200 h-[300px] flex flex-col gap-2 rounded-md justify-center items-center'>
+                <span className='text-3xl font-bold antialiased text-zinc-800'>Account</span>
+                <input
+                    type="text"
+                    placeholder='username'
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className={`w-11/12 md:w-9/12 focus:outline-none h-9 rounded-xl border-2 ${error || wrong ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`}
+                />
+                <input
+                    type="password"
+                    placeholder='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={`w-11/12 md:w-9/12 focus:outline-none h-9 rounded-xl border-2 ${error || wrong ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`}
+                />
+                <button
+                    type='button'
+                    className='py-1 rounded-lg bg-red-500 hover:bg-red-600 transition-all px-5'
+                    onClick={Login}
+                >
+                    LogIn
+                </button>
+                <h6>
+                    don&lsquo;t have an account yet?{' '}
+                    <span className='text-blue-300'>
+                        <Link href="/signup">click here</Link>
+                    </span>
+                </h6>
+                <Link
+                    className={` ${status === 200 && 'scale-105 transition-all duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute link`}
+                    href="/"
+                >
+                    {'<-'} back to home
+                </Link>
             </div>
-        )
-    }
+        </div>
+    );
+};
 
-    export default LoginSignup
+export default LoginSignup;
