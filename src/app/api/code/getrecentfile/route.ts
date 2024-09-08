@@ -6,21 +6,25 @@ export async function POST(req: NextRequest) {
   const { userId } = body;
 
   try {
-    const findcode = await User.findById(userId).populate("codemodel");
+    
+    const findcode = await User.findById(userId)
+      .populate("codemodel")
+      .select("codemodel ,userId");
     if (!findcode) {
       return NextResponse.json(
         { message: "user or code not found" },
         { status: 404 }
       );
     }
-console.log(findcode)
-return NextResponse.json({
-  message: "success",findcode},{status:200})
-
-  } catch (error) {
     return NextResponse.json(
-      { message: "server error" },
-      { status: 500 }
+      {
+        message: "success",
+        findcode,
+      },
+      { status: 200 }
     );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ message: "server error" }, { status: 500 });
   }
 }
