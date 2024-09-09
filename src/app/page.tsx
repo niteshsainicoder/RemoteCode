@@ -4,15 +4,11 @@ import RecentFiles from "./Component/Recentfiles";
 import { useEffect, useState } from "react";
 import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
-import axios from "axios";
 export default function Home() {
-
-  const { userData, setuserData } = useAppContext()
-
+  const { userData } = useAppContext()
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');
   const [openFileIndex, setOpenFileIndex] = useState<number | null>(null); // Track the open file index
-  const [recentfile, setrecentfile] = useState<any[]>([userData?.recentfiles]);
 
   const handleToggle = (index: number) => {
     setOpenFileIndex(openFileIndex === index ? null : index); // Toggle the open state
@@ -26,8 +22,8 @@ export default function Home() {
   useEffect(() => {
     if (userData.id !== '') {
       setOpenFileIndex(0);
-    }
 
+    }
   }, [userData])
 
   return (
