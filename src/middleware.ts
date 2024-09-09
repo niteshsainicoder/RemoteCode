@@ -34,8 +34,12 @@ export function middleware(request: NextRequest) {
       throw new Error("Invalid token");
     }
     const payload = decodeJwt(token);
+
+    const response = NextResponse.next();
     // If the token is valid, allow the request to proceed
-    return NextResponse.next();
+    response.headers.set("user", payload);
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    return response;
   } catch (err) {
     console.log(err, "Error verifying token");
     // If token verification fails, return a 403 forbidden response
@@ -48,5 +52,5 @@ export function middleware(request: NextRequest) {
 
 // Apply this middleware to specific routes
 export const config = {
-  matcher: ["/api/code/:path*", ], // Apply to all API routes
+  matcher: ["/api/code/:path*"], // Apply to all API routes
 };
