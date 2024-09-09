@@ -30,7 +30,7 @@ const AppContext = createContext<AppContextType>({
 
 export function AppWrapper({ children }: { children: React.ReactNode }) {
     // Define state for userData with the UserDataType structure
-    const [userData, setuserData] = useState<UserDataType>({id:'', name: 'nitesh', recentfiles: [] });
+    const [userData, setuserData] = useState<UserDataType>({id:'', name: '', recentfiles: [] });
 
     return (
         <AppContext.Provider value={{ userData, setuserData }}>
