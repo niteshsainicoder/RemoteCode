@@ -1,5 +1,6 @@
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
 import bcrypt from "bcrypt";
+import { Code } from "./codemodel";
 
 // Define the User schema interface
 interface IUser extends Document {
@@ -17,7 +18,7 @@ const userSchema: Schema<IUser> = new Schema(
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    codemodel: [{ type:Schema.Types.ObjectId, ref: "Code" }], // Correctly specify this as an array
+    codemodel: [{ type:Schema.Types.ObjectId, ref: Code }], // Correctly specify this as an array
     token: { type: String ,default:""},
     verified:{type:Boolean, default:false}
   },
