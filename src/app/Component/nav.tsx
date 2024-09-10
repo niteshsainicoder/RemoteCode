@@ -1,10 +1,18 @@
 'use client';
 import { useAppContext } from '@/Context/context'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Nav = () => {
   const { userData } = useAppContext();
+  const [datatoshow, setdatatoshow] = useState<string>('login')
+  useEffect(() => {
+    if (userData.name !== '') {
+      setdatatoshow('@' + userData.name)
+      console.log(userData);
+    }
+
+  }, [userData])
   return (
     <div className="w-full bg-zinc-800  h-16 flex justify-evenly items-center " >
       <div className="w-6/12 h-fit text-center  ">
@@ -20,11 +28,11 @@ const Nav = () => {
         </p>
       </div>
       <div className="w-6/12 h-fit  text-right text-zinc-200 flex justify-evenly gap-7 ">
-        {userData.name==='' ? `${ userData?.name }` : <Link className={`link text-zinc-200`} href="/login">
-          login
-        </Link>}
+        <Link className={`link text-zinc-200`} href={`${userData.name ? '/' : `/login`}`}>
+          {datatoshow}
+        </Link>
       </div>
-    </div>
+    </div >
   )
 }
 
