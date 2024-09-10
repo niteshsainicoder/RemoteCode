@@ -91,7 +91,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             };
 
             // Create a new array without using the spread operator
-            const updatedFiles = userData.recentfiles.concat(newFile);
+            const updatedFiles = (userData?.recentfiles || []).concat(newFile);
 
             // Manually update userData
             setuserData({
