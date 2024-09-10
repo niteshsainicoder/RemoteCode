@@ -2,6 +2,7 @@
 import { useAppContext } from '@/Context/context';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const LoginSignup = () => {
@@ -12,7 +13,7 @@ const LoginSignup = () => {
     const [error, setError] = useState<boolean>(false);
     const [wrong, setWrong] = useState<boolean>(false);
     const [response, setResponse] = useState<any>(null);
-
+const router =useRouter();
     const [status, setStatus] = useState<number | null>(null);
 
     useEffect(() => {
@@ -30,6 +31,7 @@ const LoginSignup = () => {
 
         if (!username || !password) {
             setError(true);
+            alert('All fields are required');
             console.log('All fields are required');
             return;
         }
@@ -41,12 +43,15 @@ const LoginSignup = () => {
             }, { withCredentials: true });
             setStatus(response.status);
             setResponse(response.data);
-            console.log(response.data);
+            console.log(response);
+            
+            alert('login success');
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 setStatus(error.response.status);
             }
             console.error('Login failed:', error);
+            alert(error);
             setError(true);
         }
     };
@@ -60,9 +65,11 @@ const LoginSignup = () => {
                 setWrong(false);
             }, 3000);
         } else if (status === 200) {
+            console.log(response,'from login');
+            
             setPassword('');
             setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel })
-            
+            router.push('/');
             setUsername('');
             
         }
