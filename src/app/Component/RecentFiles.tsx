@@ -28,9 +28,8 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ title, isOpen, onToggle, clas
         console.log(response.data.findcode.codemodel);
 
         const fetchedFiles = response.data.findcode.codemodel;
-        setData(fetchedFiles);
         setuserData({ ...userData, recentfiles: fetchedFiles });
-        // setuserData(prev => ({ ...prev, recentfiles: fetchedFiles }));
+        setData(fetchedFiles.reverse());
       }
     } catch (error) {
       console.log(error);
@@ -38,12 +37,10 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ title, isOpen, onToggle, clas
   };
 
   useEffect(() => {
-    if (userData.id) {
+    if (userData.id!=='') {
       getrecentfile();
-      console.log(Data, userData.recentfiles);
-
     }
-  }, [userData.id]); // This ensures the effect runs if userData.id changes
+  }, [userData.id]);
 
   useEffect(() => {
     setData(userData.recentfiles)
