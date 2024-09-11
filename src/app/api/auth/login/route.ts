@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "@/models/usermodel";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { dbconnect } from "@/dbconfig/dbconnect";
+import Jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   try {
     dbconnect();
-    const rawBody = await req.text();
 
+    // Handle manual login if no user header is present (i.e., token is invalid or user is logging in)
+    const rawBody = await req.text();
     const body = JSON.parse(rawBody);
     const { username, password } = body;
+
 
     if (!username || !password) {
       return NextResponse.json({ message: "Missing fields" }, { status: 400 });
     }
 
-    const findUser = await User.findOne({ username });
+    const findUser = await User.findOne({ username }).select("-codemodel");
 
     if (!findUser) {
       return NextResponse.json({ message: "User not found" }, { status: 400 });
@@ -28,34 +30,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Wrong password" }, { status: 400 });
     }
 
-    if (!process.env.JWT_SECRET) {
-      return NextResponse.json(
-        { message: "JWT Secret not set in environment variables" },
-        { status: 500 }
-      );
-    }
+    const token = Jwt.sign(
+      {
+        username: findUser.username,
+        id: findUser._id,
+      },
+      process.env.JWT_SECRET || "your-secret-key"
+    );
 
-    const token = jwt.sign({ id: findUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-
-    // Create response and set cookie with JWT token
-    const response = NextResponse.json(
-      { message: "Successfully authenticated" ,user:findUser},
+    let response = NextResponse.json(
+      {
+        message: "success",
+        user: findUser,
+      },
       { status: 200 }
-    ); 
-    response.cookies.set("token", token, {
+    );
+    response.cookies.set({
+      name: "token",
+      value: token,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 60 * 24, // 1 day in seconds
     });
-
     return response;
   } catch (error: any) {
     return NextResponse.json(
-      { message: "Server error", error: error.message },
+      { message: "Server error", error: error },
       { status: 500 }
     );
   }
