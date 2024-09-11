@@ -4,8 +4,9 @@ import RecentFiles from "./Component/Recentfiles";
 import { useEffect, useState } from "react";
 import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
+import axios from "axios";
 export default function Home() {
-  const { userData } = useAppContext()
+  const { userData, setuserData } = useAppContext()
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');
   const [openFileIndex, setOpenFileIndex] = useState<number | null>(null); // Track the open file index
@@ -18,11 +19,28 @@ export default function Home() {
     seterror(error);
   }
 
+  const autologin = async () => {
+    try {
+      let response = await axios.get('http://localhost:3000/api/auth/autoLogin', { withCredentials: true });
+      console.log(response);
+      if (response.status === 200) {
+        setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [] })
+      }
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+  useEffect(() => {
+    autologin()
+  }, []
+  )
 
   useEffect(() => {
     if (userData.id !== '') {
       setOpenFileIndex(0);
-
     }
   }, [userData])
 

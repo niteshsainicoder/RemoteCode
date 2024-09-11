@@ -43,7 +43,7 @@ const router =useRouter();
             }, { withCredentials: true });
             setStatus(response.status);
             setResponse(response.data);
-            console.log(response);
+            console.log(response.data,'from login');
             
             alert('login success');
         } catch (error) {

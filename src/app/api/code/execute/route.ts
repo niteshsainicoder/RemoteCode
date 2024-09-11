@@ -7,9 +7,10 @@ import { promisify } from "util";
 const execPromise = promisify(exec);
 
 export async function POST(req: NextRequest) {
-  console.time("Execution Time");
-
-  const { codeContent, language } = await req.json();
+  console.time("time");
+  const body = await req.json();
+  console.log(body);
+  const { codeContent, language } = body;
 
   if (!codeContent) {
     return NextResponse.json(
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
     }
 
     const scriptPath = path.join(
-      process.cwd(), 
+      process.cwd(),
       "src",
       "executors",
       language,
@@ -53,15 +54,11 @@ export async function POST(req: NextRequest) {
     await fs.mkdir(scriptDir, { recursive: true });
 
     await fs.writeFile(scriptPath, codeContent);
-
-
     const command = `docker run --rm -v ${scriptDir}:/usr/src/app/scripts --memory="500m" --memory-swap="1g" --cpus="2.0" ${language}-executor ${dockerCommand}`;
-
-
     const { stdout, stderr } = await execPromise(command);
 
- console.timeEnd("Execution Time"); // End the timer
-
+    await fs.unlink(scriptPath);
+    console.timeEnd("time");
     return NextResponse.json(
       {
         message: "Code executed successfully",
@@ -71,8 +68,10 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error);
+
     return NextResponse.json(
-      { message: "Internal server error", error: true , output: error},
+      { message: "Internal server error", error: error, output: false },
       { status: 500 }
     );
   }

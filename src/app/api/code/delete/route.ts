@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     if (!updatedUser) {
       return NextResponse.json(
         { message: "User or Code not found" },
-        { status: 404 }
+        { status: 403 }
       );
     }
 const deletedCode = await Code.findByIdAndDelete(codeId);

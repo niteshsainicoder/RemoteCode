@@ -23,13 +23,13 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ title, isOpen, onToggle, clas
 
   const getrecentfile = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/code/getrecentfile", { userId: userData.id });
+      const response = await axios.post("http://localhost:3000/api/code/getrecentfile", { userId: userData.id }, { withCredentials: true });
       if (response.status === 200) {
         console.log(response.data.findcode.codemodel);
 
         const fetchedFiles = response.data.findcode.codemodel;
         setuserData({ ...userData, recentfiles: fetchedFiles });
-        setData(fetchedFiles.reverse());
+        setData(fetchedFiles);
       }
     } catch (error) {
       console.log(error);
@@ -37,7 +37,7 @@ const RecentFiles: React.FC<RecentFilesProps> = ({ title, isOpen, onToggle, clas
   };
 
   useEffect(() => {
-    if (userData.id!=='') {
+    if (userData.id !== '') {
       getrecentfile();
     }
   }, [userData.id]);

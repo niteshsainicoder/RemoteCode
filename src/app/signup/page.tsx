@@ -15,6 +15,10 @@ const LoginSignup = () => {
         // Reset the state when the component mounts
         setCreated(false);
         setResponse(null);
+        setGmail('');
+        setName('');
+        setPassword('');
+        setError(false);
     }, []); // Empty dependency array ensures this runs only on mount
 
     const Signup = async () => {
@@ -68,8 +72,8 @@ const LoginSignup = () => {
                     </>
                 ) : (<>
                     <span className='text-3xl font-bold antialiased text-zinc-800 '>Account created</span>
-                    <h1>Move to < Link className={`font-semibold antialiased  text-zinc-900  link`}  href="/" > homepage</Link></h1>
-                    </>
+                    <h1>Move to < Link className={`font-semibold antialiased  text-zinc-900  link`} href="/" > homepage</Link></h1>
+                </>
                 )}
                 <Link className={` ${created && 'scale-105 transition-all duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute link`} href={`${created ? '/' : '/login'}`}>
                     {`<-`}back to {`${created ? 'homepage' : 'login '}`}

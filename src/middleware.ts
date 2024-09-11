@@ -9,8 +9,7 @@ const secret = process.env.JWT_SECRET || "your-secret-key"; // Define your secre
 export async function middleware(request: NextRequest) {
   // Check if the request contains a valid token in the cookies
   const cookieHeader = request.headers.get("cookie");
-  let token: string | undefined;
-
+  let token: string | undefined;  
   if (cookieHeader) {
     // Find the 'token' cookie and extract the value
     token = cookieHeader
@@ -35,7 +34,6 @@ export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
     // If the token is valid, allow the request to proceed
     response.headers.set("user",JSON.stringify(payload));
-    response.headers.set("Access-Control-Allow-Origin", "*");
     return response;
   } catch (err) {
     console.log(err, "Error verifying token");
@@ -49,5 +47,5 @@ export async function middleware(request: NextRequest) {
 
 // Apply this middleware to specific routes
 export const config = {
-  matcher: ["/api/code/:path*", "/api/auth/login"], // Apply to all API routes
+  matcher: ["/api/code/:path*"], // Apply to all API routes
 };
