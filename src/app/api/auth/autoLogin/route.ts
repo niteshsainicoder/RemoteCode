@@ -6,7 +6,6 @@ const secret = process.env.JWT_SECRET || "your-secret-key"; // Define your secre
 export async function GET(request: NextRequest) {
   dbconnect();
   const cookieHeader = request.headers.get("cookie");
-  console.log(request.headers);
   
   let token: string | undefined;
   if (cookieHeader) {

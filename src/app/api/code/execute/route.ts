@@ -9,7 +9,6 @@ const execPromise = promisify(exec);
 export async function POST(req: NextRequest) {
   console.time("time");
   const body = await req.json();
-  console.log(body);
   const { codeContent, language } = body;
 
   if (!codeContent) {
