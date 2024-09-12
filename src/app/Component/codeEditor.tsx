@@ -21,9 +21,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     const { userData, setuserData } = useAppContext();
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
     const [code, setCode] = useState<string>('');
-    const [recentfile, setrecentfile] = useState<FileData[]>(userData?.recentfiles || [])
     const [theme, setTheme] = useState<string>('vs-dark');
-    const [savefile, setsavefile] = useState<FileData[]>([]);
     const [language, setLanguage] = useState<string>('javascript');
     const [showPopup, setShowPopup] = useState<boolean>(false);
     const [fileName, setFileName] = useState<string>('Title of your file');
@@ -69,8 +67,18 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
         }
     };
+
     const save = async () => {
         try {
+            const { _id } = userData?.currentfile || {};
+            if (_id && userData.recentfiles.some(file => file._id === _id)) {
+                const response = await axios.post('http://localhost:3000/api/code/update', { userId: userData.id, codeId:_id, codeContent: code, language: language, }, { withCredentials: true });
+                console.log(response.data, 'from update');
+                if (response.status === 200) {
+                    alert('updated  successfully');
+                }
+                return;
+            }
             const response = await axios.post(
                 "http://localhost:3000/api/code/save",
                 {
@@ -97,13 +105,27 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             setuserData({
                 id: userData.id,
                 name: userData.name,
-                recentfiles: updatedFiles // Assign the new array
+                recentfiles: updatedFiles,
+                currentfile: null
             });
         }
         catch (error) {
             console.log("Save failed:", error);
         }
+
     }
+
+
+    useEffect(() => {
+        if (userData?.currentfile?._id && userData?.currentfile.codeContent && userData?.currentfile.language) {
+            setCode(userData?.currentfile.codeContent);
+            setLanguage(userData?.currentfile.language);
+            setFileName(userData?.currentfile.title);
+            console.log(userData?.currentfile);
+
+        }
+
+    }, [userData.currentfile])
     return (
         <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
             <div className='flex items-center flex-wrap p-1 px-2 mb-2 gap-4'>
@@ -151,8 +173,9 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             <Editor
                 defaultLanguage={language}
                 language={language}
+                value={code}
                 theme={theme}
-                defaultValue='// Write Your Code here!'
+                defaultValue={`${language === 'javascript' ? `// ` : `#`} Write Your Code here!\n`}
                 onMount={handleEditorDidMount}
                 onChange={handleEditorChange}
 
