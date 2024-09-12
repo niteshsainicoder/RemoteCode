@@ -7,9 +7,10 @@ type Props = {
     key: number,
     language: string,
     id: string,
+    codeContent: string
 
 }
-const RecentfileItem = ({ title, language, id }: Props) => {
+const RecentfileItem = ({ title, language, id, codeContent }: Props) => {
 
     const { userData, setuserData } = useAppContext(); // removeit after middlware implemention
 
@@ -30,12 +31,17 @@ const RecentfileItem = ({ title, language, id }: Props) => {
             console.error('Error deleting code:', error);
         }
     };
+    const openCode = async () => {
+        if (codeContent !== undefined) {
+            setuserData({ ...userData, currentfile: { codeContent: codeContent, language: language, title: title, _id: id } })
+        }
+    }
     return (
 
 
         <div key={id} onClick={() => console.log(title)} className='w-full max-w-full min-w-fit hover:bg-neutral-800 min-h-9 max-h-9 hover:border-zinc-700 border-zinc-900 border
         transition-all rounded bg-zinc-900  text-left flex justify-around items-center  text-white '>
-            <div className='flex px-4 justify-between   w-9/12   '>
+            <div onClick={openCode} className='flex px-4 justify-between   w-9/12   '>
                 <p className=' overflow-x-auto remove-scrollbar pr-2f  text-nowrap' > {title}</p>
                 <p> {language === 'javascript' ? '.js' : '.py'}</p>
             </div>
