@@ -4,15 +4,14 @@ export async function verifyJwt(
   secret: string
 ): Promise<boolean> {
   try {
-    // Decode the token
     const [header, payload, signature] = token.split(".");
     if (!header || !payload || !signature) {
-      return false;
+      throw new Error("Invalid token format");
     }
 
-    const encodedHeader = new TextEncoder().encode(header);
-    const encodedPayload = new TextEncoder().encode(payload);
-    const encodedSignature = Uint8Array.from(atob(signature), (c) =>
+    // Decode Base64 URL (replace URL-specific characters with Base64 characters)
+    const base64Url = signature.replace(/-/g, "+").replace(/_/g, "/");
+    const encodedSignature = Uint8Array.from(atob(base64Url), (c) =>
       c.charCodeAt(0)
     );
 
