@@ -24,7 +24,7 @@ export default function Home() {
       let response = await axios.get('http://localhost:3000/api/auth/autoLogin', { withCredentials: true });
       console.log(response);
       if (response.status === 200) {
-        setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [] })
+        setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
       }
 
     } catch (error) {
@@ -34,9 +34,12 @@ export default function Home() {
   }
 
   useEffect(() => {
-    autologin()
-  }, []
-  )
+    try {
+      autologin()
+    } catch (error) {
+      console.log(error);
+    }
+  }, [])
 
   useEffect(() => {
     if (userData.id !== '') {
