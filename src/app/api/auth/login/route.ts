@@ -6,7 +6,7 @@ import Jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   try {
-    dbconnect();
+    await dbconnect();
 
     // Handle manual login if no user header is present (i.e., token is invalid or user is logging in)
     const rawBody = await req.text();

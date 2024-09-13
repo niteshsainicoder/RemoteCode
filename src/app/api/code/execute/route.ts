@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
 
     await fs.writeFile(scriptPath, codeContent);
     const command = `docker run --rm -v ${scriptDir}:/usr/src/app/scripts --memory="500m" --memory-swap="1g" --cpus="2.0" ${language}-executor ${dockerCommand}`;
-    const { stdout, stderr } = await execPromise(command);
+    const { stdout, stderr } = await execPromise(command,{ timeout: 5000 });
 
     await fs.unlink(scriptPath);
     console.timeEnd("time");

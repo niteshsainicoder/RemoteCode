@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 const secret = process.env.JWT_SECRET || "your-secret-key"; // Define your secret key here
 
 export async function GET(request: NextRequest) {
-  dbconnect();
   const cookieHeader = request.headers.get("cookie");
   
   let token: string | undefined;
@@ -21,6 +20,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+   await dbconnect();
     // Verify the token using your JWT secret
     const isValid = verifyJwt(token, secret);
     if (!isValid) {

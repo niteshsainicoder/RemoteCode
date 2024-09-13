@@ -3,11 +3,11 @@ import { User } from "@/models/usermodel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  await dbconnect();
   const body = await req.json();
   const { userId } = body;
-
+  
   try {
+    await dbconnect();
     const findcode = await User.findById(userId).select("codemodel userId");
 
     if (!findcode) {

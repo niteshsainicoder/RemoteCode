@@ -7,16 +7,6 @@ import axios from 'axios';
 import { useAppContext } from '@/Context/context';
 
 
-
-interface FileData {
-    codeContent: string,
-    language: string,
-    title: string,
-    _id: string
-}
-
-
-
 const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => void }> = ({ onCodeExecute }) => {
     const { userData, setuserData } = useAppContext();
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
@@ -54,7 +44,10 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             console.log('run');
             if (response.status === 200) {
                 onCodeExecute(response.data.output, response.data.error);
-                console.log('ok');
+                const file = !userData.recentfiles.some(file => file.title === fileName)
+                if (file) {
+                    save();
+                }
 
             }
             if (response.status === 500) {
@@ -72,7 +65,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
         try {
             const { _id } = userData?.currentfile || {};
             if (_id && userData.recentfiles.some(file => file._id === _id)) {
-                const response = await axios.post('http://localhost:3000/api/code/update', { userId: userData.id, codeId:_id, codeContent: code, language: language, }, { withCredentials: true });
+                const response = await axios.post('http://localhost:3000/api/code/update', { userId: userData.id, codeId: _id, codeContent: code, language: language, }, { withCredentials: true });
                 console.log(response.data, 'from update');
                 if (response.status === 200) {
                     alert('updated  successfully');
