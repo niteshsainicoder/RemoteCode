@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Nav from "./Component/nav";
 import { AppWrapper } from "@/Context/context";
+import { ThemeWrapper } from "@/Context/themecontext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,11 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`  ${inter.className} remove-scrollbar caret-transparent bg-zinc-900 border-t-2 px-1 border-zinc-900 rounded-lg `}>
-        
-          <AppWrapper>
-          <Nav />
-          {children}
+      <body className={`  ${inter.className} remove-scrollbar    `}>
+
+        <AppWrapper>
+          <ThemeWrapper>
+           <div className="w-full min-h-screen select-none caret-inherit  flex flex-col"> 
+            <Nav />
+            {children}
+            </div>
+          </ThemeWrapper>
         </AppWrapper></body>
     </html>
   );
