@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
         username: findUser.username,
         id: findUser._id,
       },
-      process.env.JWT_SECRET || "your-secret-key"
+      process.env.JWT_SECRET || "your-secret-key",{
+        expiresIn: "2d",}
     );
 
     let response = NextResponse.json(
