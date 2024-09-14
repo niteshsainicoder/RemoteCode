@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
 import axios from "axios";
+import { useTheme } from "@/Context/themecontext";
 export default function Home() {
+  const { theme } = useTheme();
   const { userData, setuserData } = useAppContext()
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');
@@ -21,7 +23,7 @@ export default function Home() {
 
   const autologin = async () => {
     try {
-      let response = await axios.get('http://localhost:3000/api/auth/autoLogin', { withCredentials: true });
+      let response = await axios.get('api/auth/autoLogin', { withCredentials: true });
       console.log(response);
       if (response.status === 200) {
         setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
@@ -48,14 +50,14 @@ export default function Home() {
   }, [userData])
 
   return (
-    <main className=" flex flex-col-reverse gap-2 md:flex-row relative  max-h-full min-h-[screen] h-full border-2 rounded-lg border-zinc-700 bg-neutral-900  items-start justify-evenly px-4 py-4 ">
-      <div className="relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[500px] bg-zinc-800 md:w-2/6 flex flex-col">
+    <main className={` flex flex-col-reverse gap-2 md:flex-row relative flex-1   max-h-fit min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-zinc-100 text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
+      <div className={`relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[504px] md:w-2/6 flex flex-col`}>
         <div className="flex flex-col gap-[1px] min-h-[500px]">
           <RecentFiles
             title="Recent Files"
             isOpen={openFileIndex === 0}
             onToggle={() => handleToggle(0)}
-            classname=""
+              classname={`${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`} 
           />
           <Terminal
             title="Terminal "
@@ -63,8 +65,7 @@ export default function Home() {
             error={error!}
             isOpen={openFileIndex === 1}
             onToggle={() => handleToggle(1)}
-            classname=""
-          />
+            classname={`${theme == 'vs-dark' ? `bg-neutral-900   text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`}     />
         </div>
       </div>
       <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-fit max-h-[full] min-h-[fit] md:w-4/6 flex justify-center items-center">

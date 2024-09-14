@@ -32,7 +32,7 @@ const LoginSignup = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/api/auth/signup', {
+            const response = await axios.post('api/auth/signup', {
                 username: name,
                 email: gmail,
                 password: password,
