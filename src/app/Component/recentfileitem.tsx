@@ -1,4 +1,5 @@
 import { useAppContext } from '@/Context/context'
+import { useTheme } from '@/Context/themecontext'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
@@ -11,12 +12,12 @@ type Props = {
 
 }
 const RecentfileItem = ({ title, language, id, codeContent }: Props) => {
-
+    const { theme } = useTheme();
     const { userData, setuserData } = useAppContext(); // removeit after middlware implemention
 
     const deleteCode = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/code/delete', {
+            const response = await axios.post('api/code/delete', {
                 userId: userData.id,
                 codeId: id,
             });
@@ -39,8 +40,12 @@ const RecentfileItem = ({ title, language, id, codeContent }: Props) => {
     return (
 
 
-        <div key={id} onClick={() => console.log(title)} className='w-full max-w-full min-w-fit hover:bg-neutral-800 min-h-9 max-h-9 hover:border-zinc-700 border-zinc-900 border
-        transition-all rounded bg-zinc-900  text-left flex justify-around items-center  text-white '>
+        <div key={id} className={`w-full max-w-full min-w-fit\
+         ${theme == 'vs-dark' ?
+                `bg-neutral-800  hover:bg-neutral-700 text-neutral-200`
+                :
+                `bg-neutral-200 hover:bg-neutral-300 text-neutral-900`}  
+                min-h-9 max-h-9  transition-all text-left flex justify-around items-center    `}>
             <div onClick={openCode} className='flex px-4 justify-between   w-9/12   '>
                 <p className=' overflow-x-auto remove-scrollbar pr-2f  text-nowrap' > {title}</p>
                 <p> {language === 'javascript' ? '.js' : '.py'}</p>

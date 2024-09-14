@@ -18,7 +18,7 @@ const Popup: React.FC<PopupProps> = ({ onClose, onSave, currentName }) => {
         }
     }, []);
 
-    const handleKeyPress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleKeyPress = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onSave(newName);
         }

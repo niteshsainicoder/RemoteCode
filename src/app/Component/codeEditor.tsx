@@ -5,16 +5,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import Popup from './popup';
 import axios from 'axios';
 import { useAppContext } from '@/Context/context';
+import { useTheme } from '@/Context/themecontext';
 
 
 const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => void }> = ({ onCodeExecute }) => {
+    const { theme } = useTheme();
     const { userData, setuserData } = useAppContext();
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
     const [code, setCode] = useState<string>('');
-    const [theme, setTheme] = useState<string>('vs-dark');
     const [language, setLanguage] = useState<string>('javascript');
     const [showPopup, setShowPopup] = useState<boolean>(false);
-    const [fileName, setFileName] = useState<string>('Title of your file');
+    const [fileName, setFileName] = useState<string>('untitled');
     const handleEditorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor) => {
         editorRef.current = editor;
         console.log(editor);
@@ -37,7 +38,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     };
     const handleRunCode = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/code/execute', {
+            const response = await axios.post('api/code/execute', {
                 codeContent: code,
                 language: language,
             });
@@ -65,7 +66,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
         try {
             const { _id } = userData?.currentfile || {};
             if (_id && userData.recentfiles.some(file => file._id === _id)) {
-                const response = await axios.post('http://localhost:3000/api/code/update', { userId: userData.id, codeId: _id, codeContent: code, language: language, }, { withCredentials: true });
+                const response = await axios.post('api/code/update', { userId: userData.id, codeId: _id, codeContent: code, language: language, }, { withCredentials: true });
                 console.log(response.data, 'from update');
                 if (response.status === 200) {
                     alert('updated  successfully');
@@ -73,7 +74,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 return;
             }
             const response = await axios.post(
-                "http://localhost:3000/api/code/save",
+                "api/code/save",
                 {
                     userId: userData.id,
                     codeContent: code,
@@ -99,7 +100,8 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 id: userData.id,
                 name: userData.name,
                 recentfiles: updatedFiles,
-                currentfile: null
+                currentfile: null,
+
             });
         }
         catch (error) {
@@ -108,7 +110,12 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
     }
 
-
+    const newFile = () => {
+        setCode('')
+        setLanguage('javascript')
+        setFileName('Untitled')
+        userData.currentfile = null
+    }
     useEffect(() => {
         if (userData?.currentfile?._id && userData?.currentfile.codeContent && userData?.currentfile.language) {
             setCode(userData?.currentfile.codeContent);
@@ -121,8 +128,8 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     }, [userData.currentfile])
     return (
         <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
-            <div className='flex items-center flex-wrap p-1 px-2 mb-2 gap-4'>
-                <h1 className='px-1 p-1 w-fit min-w-20 max-w-40  text-center text-sm text-wrap overflow-hidden border rounded-lg'>{fileName}</h1>
+            <div className='flex items-center flex-wrap flex-grow p-1 px-2 mb-2 gap-4'>
+                <h1 className='px-1 p-1 w-fit min-w-40 max-w-40   text-center text-sm text-wrap overflow-x-scroll remove-scrollbar border rounded-lg'>{fileName}</h1>
                 <button
                     type='reset'
                     className={`rotate-90 text-2xl ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'} rounded-full p-1`}
@@ -143,25 +150,27 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                     <option value="cpp">C++</option>
                 </select>
 
-                <button
-                    onClick={() => setTheme(theme === 'vs-dark' ? 'light' : 'vs-dark')}
-                    className={`text-sm ${theme === ' vs-dark' ? ' hover:bg-zinc-800' : 'hover:bg-zinc-400'} px-2 py-2 rounded-xl`}
-                >
-                    Theme
-                </button>
+
                 <p
                     onClick={handleRunCode}
-                    className='text-sm cursor-pointer hover:bg-zinc-800 px-3 py-2 rounded-xl'
+                    className={`text-sm cursor-pointer${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-3 py-2 rounded-xl`}
                 >
                     run
                 </p>
-                {userData.id && <p
+                {userData.id && <> <p
                     onClick={save}
-                    className='text-sm cursor-pointer rotate-3  hover:bg-zinc-800 px-2 py-1 rounded-xl'
+                    className={`text-sm cursor-pointer rotate-3 ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-2 py-1 rounded-xl`}
                 >
                     💾
 
-                </p>}
+                </p>
+                    <p
+                        onClick={newFile}
+                        className={`text-sm cursor-pointer ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-2 py-1 rounded-xl`}
+                    >
+                        new
+
+                    </p></>}
             </div>
             <Editor
                 defaultLanguage={language}
