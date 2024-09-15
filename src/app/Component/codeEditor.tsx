@@ -129,7 +129,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     return (
         <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
             <div className='flex items-center flex-wrap flex-grow p-1 px-2 mb-2 gap-4'>
-                <h1 className='px-1 p-1 w-fit min-w-40 max-w-40   text-center text-sm text-wrap overflow-x-scroll remove-scrollbar border rounded-lg'>{fileName}</h1>
+                <h1 className={`px-1 p-1 w-fit min-w-40 max-w-40 border  text-center text-sm text-wrap overflow-x-scroll remove-scrollbar ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'} rounded-lg`}>{fileName}</h1>
                 <button
                     type='reset'
                     className={`rotate-90 text-2xl ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'} rounded-full p-1`}
