@@ -1,7 +1,8 @@
 import { dbconnect } from "@/dbconfig/dbconnect";
 import { decodeJwt, verifyJwt } from "@/utils/jwtUtils";
 import { NextRequest, NextResponse } from "next/server";
-const secret = process.env.JWT_SECRET || "your-secret-key"; // Define your secret key here
+
+const secret = process.env.JWT_SECRET || "your-secret-key";
 
 export async function GET(request: NextRequest) {
   await dbconnect();
@@ -10,31 +11,28 @@ export async function GET(request: NextRequest) {
   
   let token: string | undefined;
   if (cookieHeader) {
-    // Find the 'token' cookie and extract the value
-    
     token = cookieHeader
       .split(";")
       .find((cookie) => cookie.trim().startsWith("token="))
-      ?.split("=")[1]; // Extract the token value
+      ?.split("=")[1];
   }
 
   if (!token) {
-    return NextResponse.json({ data: "token not found" }, { status: 401 });
+    console.log("No token found");
+    return NextResponse.json({ data: "Token not found" }, { status: 401 });
   }
 
   try {
-    // Verify the token using your JWT secret
     const isValid = verifyJwt(token, secret);
     if (!isValid) {
-      throw new Error("Invalid token");
+      console.log("Invalid token");
+      return NextResponse.json({ success: false, message: "Invalid token" }, { status: 403 });
     }
+
     const payload = decodeJwt(token);
     return NextResponse.json({ data: payload }, { status: 200 });
   } catch (err) {
-    // If token verification fails, return a 403 forbidden response
-    return NextResponse.json(
-      { success: false, message: err },
-      { status: 403 }
-    );
+    console.log("Error during token verification", err);
+    return NextResponse.json({ success: false, message: "Forbidden: Invalid token" }, { status: 403 });
   }
 }

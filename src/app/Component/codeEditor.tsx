@@ -100,7 +100,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 id: userData.id,
                 name: userData.name,
                 recentfiles: updatedFiles,
-                currentfile: null,
+                currentfile: newFile,
 
             });
         }
