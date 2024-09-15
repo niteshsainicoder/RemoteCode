@@ -69,11 +69,12 @@ const {theme}=useTheme();
             console.log(response,'from login');
             
             setPassword('');
-            setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel })
+            setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel ,currentfile: null });
             router.push('/');
             setUsername('');
             
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status]);
 
     return (

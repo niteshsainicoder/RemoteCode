@@ -41,6 +41,7 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export default function Home() {
             title="Recent Files"
             isOpen={openFileIndex === 0}
             onToggle={() => handleToggle(0)}
-              classname={`${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`} 
+            classname={`${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`}
           />
           <Terminal
             title="Terminal "
@@ -65,7 +66,7 @@ export default function Home() {
             error={error!}
             isOpen={openFileIndex === 1}
             onToggle={() => handleToggle(1)}
-            classname={`${theme == 'vs-dark' ? `bg-neutral-900   text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`}     />
+            classname={`${theme == 'vs-dark' ? `bg-neutral-900   text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`} />
         </div>
       </div>
       <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-fit max-h-[full] min-h-[fit] md:w-4/6 flex justify-center items-center">
