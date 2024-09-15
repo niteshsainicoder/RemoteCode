@@ -1,4 +1,5 @@
 'use client'
+import { useTheme } from '@/Context/themecontext'
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -54,8 +55,8 @@ const LoginSignup = () => {
     }
 
     return (
-        <div className='h-screen w-screen flex flex-col justify-center items-center'>
-            <div className='w-11/12 md:w-[400px] transition-all relative bg-zinc-500 h-[300px] flex flex-col gap-2 rounded-md justify-center items-center'>
+        <div className={`h-full flex-1 w-screen flex flex-col justify-center items-center ${useTheme().theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-zinc-100 text-neutral-900`} `}>
+            <div className='w-11/12 md:w-[400px] transition-all relative bg-zinc-200 h-[300px] flex flex-col gap-2 rounded-md justify-center items-center'>
                 {!created ? (
                     <>
                         <span className=' text-3xl cursor-context-menu font-bold antialiased mb-2 text-zinc-800 '>Account</span>
