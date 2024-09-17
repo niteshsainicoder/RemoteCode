@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import RecentfileItem from './recentfileitem';
 import axios from 'axios';
 import { useAppContext } from '@/Context/context';
-import { ThemeWrapper, useTheme } from '@/Context/themecontext';
+import {  useTheme } from '@/Context/themecontext';
 
 interface FileData {
   codeContent: string,
@@ -67,4 +67,4 @@ const { theme } = useTheme();
   );
 };
 
-export default Recentfiles;
+export  {Recentfiles};

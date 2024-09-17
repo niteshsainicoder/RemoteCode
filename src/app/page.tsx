@@ -1,6 +1,6 @@
 'use client'
 import CodeEditor from "./Component/codeEditor";
-import Recentfiles from "./Component/Recentfiles";
+import { Recentfiles } from "./Component/recentfile"
 import { useEffect, useState } from "react";
 import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
