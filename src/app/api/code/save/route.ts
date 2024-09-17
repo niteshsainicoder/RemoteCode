@@ -1,7 +1,7 @@
 import { dbconnect } from "@/dbconfig/dbconnect";
 import { Code } from "@/models/codemodel";
 import { User } from "@/models/usermodel";
-import { ObjectId } from "mongoose";
+import { ObjectId, Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 dbconnect();
@@ -29,8 +29,10 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
-    findUser.codemodel.push(newcodemodel);
-
+    const codeModelId: Types.ObjectId = newcodemodel._id as Types.ObjectId;
+    
+    // Push the new code model's ID to the user's codemodel array
+    findUser.codemodel.push(codeModelId); 
     await findUser.save();
 
     return NextResponse.json(
