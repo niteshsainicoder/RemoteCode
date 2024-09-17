@@ -1,6 +1,6 @@
 'use client'
 import CodeEditor from "./Component/codeEditor";
-import RecentFiles from "./Component/Recentfiles";
+import Recentfiles from "./Component/Recentfiles";
 import { useEffect, useState } from "react";
 import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
@@ -54,7 +54,7 @@ export default function Home() {
     <main className={` flex flex-col-reverse gap-2 md:flex-row relative flex-1   max-h-fit min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-zinc-100 text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
       <div className={`relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[504px] md:w-2/6 flex flex-col`}>
         <div className="flex flex-col gap-[1px] min-h-[500px]">
-          <RecentFiles
+          <Recentfiles
             title="Recent Files"
             isOpen={openFileIndex === 0}
             onToggle={() => handleToggle(0)}
