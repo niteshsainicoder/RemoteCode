@@ -3,7 +3,6 @@ import path from "path";
 import { promises as fs } from "fs"; // Use promise-based fs methods
 import { exec } from "child_process";
 import { promisify } from "util";
-import axios from "axios";
 
 const execPromise = promisify(exec);
 

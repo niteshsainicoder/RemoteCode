@@ -3,9 +3,10 @@ import { Code } from "@/models/codemodel";
 import { User } from "@/models/usermodel";
 import { NextRequest, NextResponse } from "next/server";
 
- dbconnect();
+
 export async function POST(req: NextRequest) {
   try {
+    dbconnect();
     const body = await req.json();
     const { userId, codeId } = body;
     console.log(body);
