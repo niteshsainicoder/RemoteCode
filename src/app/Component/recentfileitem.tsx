@@ -40,17 +40,17 @@ const RecentfileItem = ({ title, language, id, codeContent }: Props) => {
     return (
 
 
-        <div key={id} className={`w-full max-w-full min-w-fit\
+        <div key={id} className={`w-full max-w-full min-w-full
          ${theme == 'vs-dark' ?
                 `bg-neutral-800  hover:bg-neutral-700 text-neutral-200`
                 :
                 `bg-neutral-200 hover:bg-neutral-300 text-neutral-900`}  
                 min-h-9 max-h-9  transition-all text-left flex justify-around items-center    `}>
-            <div onClick={openCode} className='flex px-4 justify-between   w-9/12   '>
+            <div onClick={openCode} className='flex px-4 justify-between   w-10/12   '>
                 <p className=' overflow-x-auto remove-scrollbar pr-2f  text-nowrap' > {title}</p>
                 <p> {language === 'javascript' ? '.js' : '.py'}</p>
             </div>
-            <div className='w-3/12  min-w-8 '>
+            <div className='w-2/12  min-w-8 '>
                 <button type='button' onClick={deleteCode} className='ml-4 on text-md hover:text-red-600'>X</button>
             </div>
         </div>)
