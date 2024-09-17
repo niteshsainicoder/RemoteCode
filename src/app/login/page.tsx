@@ -79,7 +79,7 @@ const {theme}=useTheme();
 
     return (
         <div className={`h-full flex-1 w-screen flex flex-col justify-center items-center  ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-600` : `bg-zinc-100 text-neutral-900`} `}>
-            <div className='w-11/12 m-4 md:w-[400px] transition-all relative bg-zinc-200 h-[300px] flex flex-col gap-2 rounded-md justify-center items-center'>
+            <div className='w-11/12 m-4 max-w-[400px] md:w-[400px] transition-all relative bg-zinc-200 h-[300px] flex flex-col gap-2 rounded-md justify-center items-center'>
                 <span className='text-3xl font-bold antialiased text-zinc-800'>Account</span>
                 <input
                     type="text"
