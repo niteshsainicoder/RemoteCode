@@ -38,7 +38,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     };
     const handleRunCode = async () => {
         try {
-            const response = await axios.post('api/code/execute', {
+            const response = await axios.post('/api/code/execute', {
                 codeContent: code,
                 language: language,
             });
@@ -153,7 +153,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
 
                 <p
                     onClick={handleRunCode}
-                    className={`text-sm cursor-pointer${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-3 py-2 rounded-xl`}
+                    className={`text-sm cursor-pointer ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-3 py-2 rounded-xl`}
                 >
                     run
                 </p>

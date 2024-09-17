@@ -18,7 +18,7 @@ interface RecentFilesProps {
   classname: string;
 }
 
-const RecentFiles: React.FC<RecentFilesProps> = ({ title, isOpen, onToggle, classname }) => {
+const Recentfiles: React.FC<RecentFilesProps> = ({ title, isOpen, onToggle, classname }) => {
 const { theme } = useTheme();
   const { userData, setuserData } = useAppContext();
   const [Data, setData] = useState<FileData[]>(userData.recentfiles || []);
@@ -67,4 +67,4 @@ const { theme } = useTheme();
   );
 };
 
-export default RecentFiles;
+export default Recentfiles;
