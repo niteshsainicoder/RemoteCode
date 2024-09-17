@@ -1,20 +1,23 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from 'react';
 
-interface themedata {
-    theme: string,
+interface Themedata {
+    theme: string;
     setTheme: (theme: string) => void;
-
 }
 
-const ThemeContext = createContext<themedata>({ theme: 'dark', setTheme: () => { } })
+const ThemeContext = createContext<Themedata>({ theme: 'vs-dark', setTheme: () => {} });
+
 export function ThemeWrapper({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<string>(() => {
+    const [theme, setTheme] = useState<string>('vs-dark');
+
+    useEffect(() => {
         // Initialize the theme state with a value from localStorage or default to 'vs-dark'
         const savedTheme = localStorage.getItem('theme');
-        return savedTheme ? savedTheme : 'vs-dark';
-    });
-
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    }, []);
 
     useEffect(() => {
         // Save theme to localStorage whenever it changes
@@ -24,9 +27,10 @@ export function ThemeWrapper({ children }: { children: React.ReactNode }) {
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>
             {children}
-        </ThemeContext.Provider>)
-
+        </ThemeContext.Provider>
+    );
 }
+
 export function useTheme() {
     // Make sure to return the context value
     return useContext(ThemeContext);
