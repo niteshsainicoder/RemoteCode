@@ -66,7 +66,14 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             if (_id && userData.recentfiles.some(file => file._id === _id)) {
                 const response = await axios.post('api/code/update', { userId: userData.id, codeId: _id, codeContent: code, language: language, }, { withCredentials: true });
                 if (response.status === 200) {
-                    alert('updated  successfully');
+                    let recentfile = userData.recentfiles.map((file) => {
+                        if (file._id === _id) {
+                            return { ...file, codeContent: code, language: language };
+                        }
+                        return file;
+                    })
+                    setuserData({ ...userData, recentfiles: recentfile, currentfile: { codeContent: code, language: language, title: fileName, _id: _id } });
+
                 }
                 return;
             }
@@ -118,7 +125,6 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             setCode(userData?.currentfile.codeContent);
             setLanguage(userData?.currentfile.language);
             setFileName(userData?.currentfile.title);
-            console.log(userData?.currentfile);
 
         }
 
