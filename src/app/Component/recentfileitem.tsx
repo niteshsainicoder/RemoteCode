@@ -26,7 +26,6 @@ const RecentfileItem = ({ title, language, id, codeContent }: Props) => {
                 // Update context immediately after successful deletion
                 const updatedFiles = userData.recentfiles?.filter((code) => code._id !== id);
                 setuserData({ ...userData, recentfiles: updatedFiles });
-                console.log('Code deleted:', response.data);
             }
         } catch (error) {
             console.error('Error deleting code:', error);

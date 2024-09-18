@@ -27,8 +27,6 @@ const { theme } = useTheme();
     try {
       const response = await axios.post("api/code/getrecentfile", { userId: userData.id }, { withCredentials: true });
       if (response.status === 200) {
-        console.log(response.data.findcode.codemodel);
-
         const fetchedFiles = response.data.findcode.codemodel;
         setuserData({ ...userData, recentfiles: fetchedFiles });
         setData(fetchedFiles);

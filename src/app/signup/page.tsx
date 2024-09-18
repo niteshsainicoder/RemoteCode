@@ -10,12 +10,10 @@ const LoginSignup = () => {
     const [password, setPassword] = useState<string | null>('')
     const [error, setError] = useState<boolean>(false)
     const [created, setCreated] = useState<boolean>(false)
-    const [response, setResponse] = useState<any>(null)
 
     useEffect(() => {
         // Reset the state when the component mounts
         setCreated(false);
-        setResponse(null);
         setGmail('');
         setName('');
         setPassword('');
@@ -28,7 +26,6 @@ const LoginSignup = () => {
 
         if (!gmail || !password || !name) {
             setError(true);
-            console.log('All fields are required');
             return null;
         }
 
@@ -40,9 +37,6 @@ const LoginSignup = () => {
             }, { withCredentials: true });
 
             if (response.status === 201) {
-                setResponse(response.data)
-                console.log(response.data);
-
                 setCreated(true); // Show the "Account created" badge
                 setTimeout(() => {
                     setCreated(false);

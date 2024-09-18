@@ -11,7 +11,6 @@ const Nav = () => {
   useEffect(() => {
     if (userData.name !== '') {
       setdatatoshow('@' + userData.name)
-      console.log(userData);
     }
 
   }, [userData])

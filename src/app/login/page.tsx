@@ -14,9 +14,9 @@ const LoginSignup = () => {
     const [error, setError] = useState<boolean>(false);
     const [wrong, setWrong] = useState<boolean>(false);
     const [response, setResponse] = useState<any>(null);
-const router =useRouter();
+    const router = useRouter();
     const [status, setStatus] = useState<number | null>(null);
-const {theme}=useTheme();
+    const { theme } = useTheme();
     useEffect(() => {
         setResponse(null);
         setUsername('');
@@ -32,8 +32,6 @@ const {theme}=useTheme();
 
         if (!username || !password) {
             setError(true);
-            alert('All fields are required');
-            console.log('All fields are required');
             return;
         }
 
@@ -44,15 +42,10 @@ const {theme}=useTheme();
             }, { withCredentials: true });
             setStatus(response.status);
             setResponse(response.data);
-            console.log(response.data,'from login');
-            
-            alert('login success');
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 setStatus(error.response.status);
             }
-            console.error('Login failed:', error);
-            alert(error);
             setError(true);
         }
     };
@@ -66,15 +59,15 @@ const {theme}=useTheme();
                 setWrong(false);
             }, 3000);
         } else if (status === 200) {
-            console.log(response,'from login');
-            
+            console.log(response, 'from login');
+
             setPassword('');
-            setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel ,currentfile: null });
+            setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel, currentfile: null });
             router.push('/');
             setUsername('');
-            
+
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status]);
 
     return (

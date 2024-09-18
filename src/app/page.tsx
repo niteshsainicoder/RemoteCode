@@ -24,7 +24,6 @@ export default function Home() {
   const autologin = async () => {
     try {
       let response = await axios.get('api/auth/autoLogin', { withCredentials: true });
-      console.log(response);
       if (response.status === 200) {
         setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
       }

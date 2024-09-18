@@ -18,7 +18,6 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
     const [fileName, setFileName] = useState<string>('untitled');
     const handleEditorDidMount = (editor: monacoEditor.editor.IStandaloneCodeEditor) => {
         editorRef.current = editor;
-        console.log(editor);
     };
 
     const handleEditorChange = (value: string | undefined) => {
@@ -42,7 +41,6 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
                 codeContent: code,
                 language: language,
             });
-            console.log('run');
             if (response.status === 200) {
                 onCodeExecute(response.data.output, response.data.error);
                 const file = !userData.recentfiles.some(file => file.title === fileName)
@@ -67,7 +65,6 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string) => v
             const { _id } = userData?.currentfile || {};
             if (_id && userData.recentfiles.some(file => file._id === _id)) {
                 const response = await axios.post('api/code/update', { userId: userData.id, codeId: _id, codeContent: code, language: language, }, { withCredentials: true });
-                console.log(response.data, 'from update');
                 if (response.status === 200) {
                     alert('updated  successfully');
                 }
