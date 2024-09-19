@@ -21,11 +21,12 @@ export async function POST(req: NextRequest) {
         headers: {'x-api-key': process.env.API_KEY },
       }
     );
+console.log(response.data);
 
     return NextResponse.json(
       {
         output: response.data.output,
-        error: response.data.success,
+        error: !response.data.success,
       },
       { status: 200 }
     );

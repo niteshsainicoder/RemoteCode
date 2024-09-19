@@ -14,6 +14,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggl
     const { theme } = useTheme();
     useEffect(() => {
         ontoggle
+        
     }, [data])
     return (
         <div className={`w-full min-w-fit flex border flex-col max-w-full ${classname} max-h-[460px]  sticky top-0 z-10 bottom-0  `}>
