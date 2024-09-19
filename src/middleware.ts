@@ -37,5 +37,5 @@ export async function middleware(request: NextRequest) {
 
 // Apply middleware to specific routes
 export const config = {
-  matcher: ["/api/code/save","/api/code/update","/api/code/delete"],
+  matcher: ["/api/code/save","/api/code/update","/api/code/delete","/api/auth/autoLogin"],
 };
