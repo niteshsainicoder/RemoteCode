@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-  const response=  await axios.post(
-      process.env.SERVER_URL!,
+  const response=  await axios.post(`
+      ${process.env.SERVER_URL}/run`,
       { language, codeContent },
       {
         headers: {'x-api-key': process.env.API_KEY },
