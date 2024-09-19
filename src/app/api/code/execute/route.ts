@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       process.env.SERVER_URL!,
       { language, codeContent },
       {
-        headers: {' x-api-key': process.env.API_KEY },
+        headers: {'x-api-key': process.env.API_KEY },
       }
     );
 
