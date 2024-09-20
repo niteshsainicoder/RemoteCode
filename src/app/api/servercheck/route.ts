@@ -1,10 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 const MAX_RETRIES = 3;
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const url = process.env.SERVER_URL!;
   let attempt = 0;
 
