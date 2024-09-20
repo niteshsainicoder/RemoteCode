@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        light: "#f6f4f2",
+        dark: "#0f0f0f",
+      },
       animation: {
         blink: "blink 1s steps(2, start) infinite",
       },

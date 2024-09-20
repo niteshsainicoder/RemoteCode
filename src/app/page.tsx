@@ -50,14 +50,14 @@ export default function Home() {
   }, [userData])
 
   return (
-    <main className={` flex flex-col-reverse gap-2 md:flex-row relative flex-1   max-h-fit min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-zinc-100 text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
+    <main className={` flex flex-col-reverse gap-2 md:flex-row relative flex-1   max-h-fit min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-light text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
       <div className={`relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[504px] md:w-2/6 flex flex-col`}>
         <div className="flex flex-col gap-[1px] min-h-[500px]">
           <Recentfiles
             title="Recent Files"
             isOpen={openFileIndex === 0}
             onToggle={() => handleToggle(0)}
-            classname={`${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`}
+            classname={`${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200 ` : `bg-light text-neutral-900`}`}
           />
           <Terminal
             title="Terminal "
@@ -65,7 +65,7 @@ export default function Home() {
             error={error!}
             isOpen={openFileIndex === 1}
             onToggle={() => handleToggle(1)}
-            classname={`${theme == 'vs-dark' ? `bg-neutral-900   text-neutral-200 ` : `bg-neutral-50 text-neutral-900`}`} />
+            classname={`${theme == 'vs-dark' ? `bg-neutral-900   text-neutral-200 ` : `bg-light text-neutral-900`}`} />
         </div>
       </div>
       <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-fit max-h-[full] min-h-[fit] md:w-4/6 flex justify-center items-center">

@@ -15,7 +15,7 @@ const Nav = () => {
 
   }, [userData])
   return (
-    <div className={`w-full ${theme == 'vs-dark' ? `bg-neutral-900 border-t border-b border-grey-400 text-neutral-200 ` : `bg-neutral-100 border-t  border-black text-neutral-900`}  h-16 flex justify-evenly items-center `} >
+    <div className={`w-full ${theme == 'vs-dark' ? `bg-neutral-900 border-t border-b border-grey-400 text-neutral-200 ` : `bg-light border-t  border-black text-neutral-900`}  h-16 flex justify-evenly items-center `} >
       <div className="w-6/12 h-fit text-center  ">
         <p className="font-extrabold antialiased text-xl  shadow-slate-500 ">
           <span className="text-3xl font-extrabold">
