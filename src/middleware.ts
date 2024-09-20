@@ -15,8 +15,11 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!token) {
-    console.log("No token found in cookies");
-    return NextResponse.redirect("/login"); // Redirect to login if no token is found
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = '/login'; // Set the path to '/login'
+    
+    // Redirect to the login page
+    return NextResponse.redirect(loginUrl);
   }
 
   try {

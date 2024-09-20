@@ -34,13 +34,15 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
+  useEffect( () => {
     try {
+      axios.get('/api/servercheck')
       autologin()
+
     } catch (error) {
       console.log(error);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
