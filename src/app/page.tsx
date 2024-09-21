@@ -25,7 +25,11 @@ export default function Home() {
     try {
       let response = await axios.get('api/auth/autoLogin', { withCredentials: true });
       if (response.status === 200) {
+        if (userData.recentfiles.length > 0) {
+          setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: userData.recentfiles, currentfile: null })
+        }
         setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
+
       }
 
     } catch (error) {
@@ -34,7 +38,7 @@ export default function Home() {
     }
   }
 
-  useEffect( () => {
+  useEffect(() => {
     try {
       axios.get('/api/servercheck')
       autologin()
