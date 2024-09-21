@@ -3,37 +3,19 @@ import { useTheme } from '@/Context/themecontext'
 import axios from 'axios'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { Form, useForm } from 'react-hook-form'
 
 const LoginSignup = () => {
-    const [name, setName] = useState<string | null>('')
-    const [gmail, setGmail] = useState<string | null>('')
-    const [password, setPassword] = useState<string | null>('')
-    const [error, setError] = useState<boolean>(false)
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [created, setCreated] = useState<boolean>(false)
 
-    useEffect(() => {
-        // Reset the state when the component mounts
-        setCreated(false);
-        setGmail('');
-        setName('');
-        setPassword('');
-        setError(false);
-    }, []); // Empty dependency array ensures this runs only on mount
+    // Empty dependency array ensures this runs only on mount
 
-    const Signup = async () => {
-        // Reset error state
-        setError(false);
-
-        if (!gmail || !password || !name) {
-            setError(true);
-            return null;
-        }
+    const Signup = async (data: any) => {
 
         try {
             const response = await axios.post('api/auth/signup', {
-                username: name,
-                email: gmail,
-                password: password,
+                ...data
             }, { withCredentials: true });
 
             if (response.status === 201) {
@@ -44,26 +26,26 @@ const LoginSignup = () => {
             }
         } catch (error) {
             console.error('Signup failed:', error);
-            setError(true);
         }
     }
 
     return (
         <div className={`h-full flex-1 w-screen flex flex-col justify-center items-center ${useTheme().theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-zinc-100 text-neutral-900`} `}>
-            <div className={`w-11/12 max-w-[400px] md:w-[400px] transition-all relative ${useTheme().theme == 'vs-dark' ? `bg-zinc-600 text-neutral-200` : `bg-zinc-200 text-neutral-900`} h-[300px] flex flex-col gap-2 rounded-md justify-center items-center`}>
+            <form onSubmit={handleSubmit(Signup)} className={`w-11/12 max-w-[400px] md:w-[400px] transition-all relative ${useTheme().theme == 'vs-dark' ? `bg-zinc-600 text-neutral-800` : `bg-zinc-200 text-neutral-900`} h-[300px] flex flex-col  rounded-md justify-center items-center`}>
                 {!created ? (
                     <>
                         <span className=' text-3xl cursor-context-menu font-bold antialiased mb-2 text-zinc-800 '>Account</span>
-                        <input type="text" placeholder='user name' onChange={(e) => {
-                            setName(e.target.value);
-                        }} className={`w-11/12 md:w-9/12 focus:outline-none h-9 rounded-xl border ${error ? 'border-red-400 hover:border-red-500' : '   border-teal-300'} caret-teal-800 pl-4 text-wrap`} />
-                        <input type="text" placeholder='email address' onChange={(e) => {
-                            setGmail(e.target.value);
-                        }} className={`w-11/12 md:w-9/12 h-9 focus:outline-none rounded-xl border ${error ? 'border-red-400 hover:border-red-500' : ' border-teal-300'} caret-teal-800 pl-4 text-wrap`} />
-                        <input type="password" placeholder='password' onChange={(e) => {
-                            setPassword(e.target.value);
-                        }} className={`w-11/12 md:w-9/12 h-9 focus:outline-none rounded-xl border ${error ? 'border-red-400 hover:border-red-500' : ' border-teal-300'} caret-teal-800 pl-4 text-wrap`} />
-                        <button type='submit' className={`active:border-transparent active:cursor-wait py-1 rounded-lg font-semibold antialiased bg-red-400 px-5`} onClick={Signup}>signup</button>
+                        {errors.username && <span className='left-0 w-11/12 text-xs  text-red-500 antialiased'>This field is required</span>}
+                        <input {...register('username', { required: true })} placeholder="Username" className={`relative w-11/12 md:w-9/12 focus:outline-none ${errors.username ? 'mt-0' : 'mt-4'} h-9 rounded-xl border-2 ${errors ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`} />
+
+                        {errors.email && <span className='left-0 w-11/12 text-xs m-0 p-0  text-red-500 antialiased'>This field is required</span>}
+                        <input {...register('email', { required: true })} type="email" placeholder="Email" className={`w-11/12 md:w-9/12 focus:outline-none h-9  mt-4 ${errors.email && 'mt-0'}  rounded-xl border-2 ${errors ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`} />
+
+                        {errors.password && <span className='left-0 w-11/12 text-xs text-red-500 antialiased'>This field is required</span>}
+                        <input {...register('password', { required: true })} type="password" placeholder="Password" className={`w-11/12 md:w-9/12 focus:outline-none h-9 mb-2 mt-4 ${errors.password && 'mt-0'} mb-2 rounded-xl border-2 ${errors ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`} />
+
+                        <button type='submit' className='py-1 rounded-lg bg-red-500 hover:bg-red-600 transition-all px-5'>Sign Up</button>
+
                     </>
                 ) : (<>
                     <span className='text-3xl font-bold antialiased text-zinc-800 '>Account created</span>
@@ -73,7 +55,7 @@ const LoginSignup = () => {
                 <Link className={` ${created && 'scale-105 transition-all duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute link`} href={`${created ? '/' : '/login'}`}>
                     {`<-`}back to {`${created ? 'homepage' : 'login '}`}
                 </Link>
-            </div>
+            </form>
         </div>
     )
 }
