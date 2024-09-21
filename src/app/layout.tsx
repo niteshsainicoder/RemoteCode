@@ -26,7 +26,7 @@ export default function RootLayout({
 
         <AppWrapper>
           <ThemeWrapper>
-           <div className="w-full min-h-screen select-none caret-inherit bg-green-400 flex flex-col"> 
+           <div className="w-full min-h-screen select-none caret-inherit  flex flex-col"> 
             <Nav />
             {children}
             </div>
