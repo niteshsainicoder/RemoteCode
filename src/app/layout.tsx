@@ -11,7 +11,7 @@ import { ThemeWrapper } from "@/Context/themecontext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Remote-Code",
+  title: "CodeRun",
   description: "platform where you can run code",
 };
 
@@ -26,7 +26,7 @@ export default function RootLayout({
 
         <AppWrapper>
           <ThemeWrapper>
-           <div className="w-full min-h-screen select-none caret-inherit  flex flex-col"> 
+           <div className="w-full min-h-screen select-none caret-inherit bg-green-400 flex flex-col"> 
             <Nav />
             {children}
             </div>

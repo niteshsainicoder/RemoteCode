@@ -56,7 +56,7 @@ export default function Home() {
   }, [userData])
 
   return (
-    <main className={` flex flex-col-reverse gap-2 md:flex-row relative flex-1   max-h-fit min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-light text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
+    <main className={` flex  flex-col-reverse gap-2 md:flex-row flex-1  max-h-full min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-light text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
       <div className={`relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[504px] md:w-2/6 flex flex-col`}>
         <div className="flex flex-col gap-[1px] min-h-[500px]">
           <Recentfiles
