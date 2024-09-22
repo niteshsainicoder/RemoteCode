@@ -34,15 +34,19 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, o
 
 
     const datatime = (time: number) => {
-  
-        if (time < 1) {
-            // Convert to milliseconds (ms)
-            return `${(time * 1000).toFixed(3)} ms`;
-        } else {
-            // Show in seconds (s)
-            return `${time.toFixed(3)} s`;
-        }
-    }
+            // Check if the time is a valid number
+            if (typeof time !== 'number' || isNaN(time)) {
+              console.error('Invalid input: time must be a number');
+              return 'Invalid time'; // Return an error message or a fallback value
+            }
+          
+            // If the time is less than 1 second, convert to milliseconds
+            if (time < 1) {
+              return `${(time * 1000).toFixed(3)} ms`;
+            } else {
+              return `${time.toFixed(3)} s`;
+            }
+          }
 
 
     useEffect(() => {
