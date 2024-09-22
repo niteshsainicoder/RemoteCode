@@ -1,5 +1,6 @@
 import { useTheme } from '@/Context/themecontext';
 import axios from 'axios';
+import { stringify } from 'querystring';
 import React, { useEffect, useState } from 'react';
 
 interface TerminalProps {
@@ -16,7 +17,7 @@ interface TerminalProps {
 const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, onToggle, loading, classname }) => {
     const { theme } = useTheme();
     const [serVerRunning, setServerRunning] = useState<boolean>(false)
-    const [Time, setTime] = useState<string | null>(null)
+    const [Time, setTime] = useState<string >('')
     const servercheck = async () => {
         try {
             const response = await axios.get('/api/servercheck')
@@ -34,23 +35,18 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, o
 
 
     const datatime = (time: number) => {
-            // Check if the time is a valid number
-            if (typeof time !== 'number' || isNaN(time)) {
-              console.error('Invalid input: time must be a number');
-              return 'Invalid time'; // Return an error message or a fallback value
-            }
-          
             // If the time is less than 1 second, convert to milliseconds
             if (time < 1) {
-              return `${(time * 1000).toFixed(3)} ms`;
+                return `${(time * 1000).toFixed(3)} ms`;
             } else {
-              return `${time.toFixed(3)} s`;
+                return `${time.toFixed(3)} s`;
             }
-          }
+        }
+    
 
 
     useEffect(() => {
-        setTime(datatime(time));
+    console.log(datatime(time))
     }, [time])
 
     useEffect(() => {
