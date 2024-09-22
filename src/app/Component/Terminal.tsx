@@ -1,5 +1,7 @@
 import { useTheme } from '@/Context/themecontext';
-import React, { useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { boolean } from 'zod';
 
 interface TerminalProps {
     title: string;
@@ -12,18 +14,39 @@ interface TerminalProps {
 
 const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggle, classname }) => {
     const { theme } = useTheme();
+    const [serVerRunning, setServerRunning] = useState<boolean>(false)
+    const servercheck = async () => {
+        try {
+            const response = await axios.get('/api/servercheck')
+            if (response.status === 200) {
+                return true
+            } else {
+                return false
+            }
+        }
+        catch (error) {
+            console.log(error)
+            return false
+        }
+    }
     useEffect(() => {
-        ontoggle
-        
+        servercheck().then((data) => {
+            setServerRunning(data)
+            console.log(data)
+        })
+    }, [isOpen])
+    useEffect(() => {
+        onToggle();
+
     }, [data])
     return (
-        <div className={`w-full min-w-fit flex border flex-col max-w-full ${classname} max-h-[460px]  sticky top-0 z-10 bottom-0  `}>
+        <div className={`w-full min-w-fit relative flex border flex-col max-w-full ${classname} max-h-[460px]  sticky top-0 z-10 bottom-0  `}>
 
             <p
                 onClick={onToggle}
                 className='w-full h-10  cursor-pointer font-bold antialiased text-center pt-2   flex  justify-between px-9 items-center'
             >
-                {title}
+                {title} <sup className={`w-2 absolute left-28  top-3 rounded-full h-2 ${serVerRunning ? 'bg-green-500' : 'bg-red-500'}`}></sup>
                 <span
                     className={`inline-block ml-2 text-xl transform transition  ${isOpen ? 'rotate-180  pt-3' : 'rotate-0 pt-1'}`}
                 >
