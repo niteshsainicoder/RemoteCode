@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
         headers: {'x-api-key': process.env.API_KEY },
       }
     );
-console.log(response.data);
 
     return NextResponse.json(
       {

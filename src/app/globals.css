@@ -37,6 +37,10 @@ body {
   content: '_';
   animation: blink 1s steps(2, start) infinite;
 }
+.blinking-dot::after {
+  content: '.';
+  animation: blink 1s steps(2, start) infinite;
+}
 
 @keyframes blink {
   to {

@@ -8,11 +8,12 @@ interface TerminalProps {
     data: string;
     error: string;
     isOpen: boolean;
+    loading: boolean;
     onToggle: () => void; // Callback to toggle the state
     classname: string;
 }
 
-const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggle, classname }) => {
+const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggle, loading, classname }) => {
     const { theme } = useTheme();
     const [serVerRunning, setServerRunning] = useState<boolean>(false)
     const servercheck = async () => {
@@ -31,14 +32,18 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggl
     }
     useEffect(() => {
         servercheck().then((data) => {
-            setServerRunning(data)
-            console.log(data)
-        })
-    }, [isOpen])
-    useEffect(() => {
-        onToggle();
+            setServerRunning(data);
+            console.log(data);
+        });
+    }, []);
 
-    }, [data])
+    // Open terminal when new data arrives and terminal is not already open
+    useEffect(() => {
+
+        onToggle(); // Only toggle if terminal is currently closed
+
+    }, []);
+
     return (
         <div className={`w-full min-w-fit relative flex border flex-col max-w-full ${classname} max-h-[460px]  sticky top-0 z-10 bottom-0  `}>
 
@@ -58,18 +63,13 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggl
                 className={`transition-max-height duration-300 ease-in-out px-3 ${theme == 'vs-dark' ? `bg-neutral-800 text-neutral-200` : `bg-zinc-200 text-neutral-900`} remove-scrollbar font-mono border-none overflow-y-scroll ${isOpen ? 'max-h-[450px] min-h-[250px] pb-12 pt-8' : 'max-h-0 p-0'
                     }`}
             >
-                <pre className={`w-full h-fit whitespace-pre-wrap break-words ${error ? 'text-red-500' : ' text-green-500'} `}>
+                {loading ? <p className=' w-full h-full flex items-center justify-center'>Loading <span className='blinking-dot'></span><span className='blinking-dot'></span></p> : <pre className={`w-full h-fit whitespace-pre-wrap break-words ${error ? 'text-red-500' : ' text-green-500'} `}>
                     {data
                         ? `${data}`
-                        : `${error
-                            ? error
-                            : `${` $ node script.js 1 2 3 4 5
-                                 Hello, JavaScript!
-                                 Calculating sum of numbers from 1 to 5...
-                                 The sum is: 15
-                                 Execution time: 2ms`}`} `}
+                        : error
+                        && `${error}`}
                     <span className="blinking-cursor"></span>
-                </pre>
+                </pre>}
             </div>
 
 

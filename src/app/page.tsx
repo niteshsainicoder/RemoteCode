@@ -6,18 +6,21 @@ import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
 import axios from "axios";
 import { useTheme } from "@/Context/themecontext";
+import { BlobOptions } from "buffer";
 export default function Home() {
   const { theme } = useTheme();
   const { userData, setuserData } = useAppContext()
   const [output, setoutput] = useState<string | null>('by the way default output good not need');
   const [error, seterror] = useState<string | null>('');
+  const [loading,setloading] = useState<boolean>(false);
   const [openFileIndex, setOpenFileIndex] = useState<number | null>(null); // Track the open file index
 
   const handleToggle = (index: number) => {
     setOpenFileIndex(openFileIndex === index ? null : index); // Toggle the open state
   };
-  const onCodeExecute = (output: string, error: string) => {
+  const onCodeExecute = (output: string, error: string,loading:boolean) => {
     setoutput(output)
+    setloading(loading)
     seterror(error);
   }
 
@@ -67,7 +70,8 @@ export default function Home() {
           />
           <Terminal
             title="Terminal "
-            data={output!}
+            data={output|| ''}
+            loading={loading}
             error={error!}
             isOpen={openFileIndex === 1}
             onToggle={() => handleToggle(1)}
