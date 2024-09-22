@@ -8,7 +8,7 @@ import { useAppContext } from '@/Context/context';
 import { useTheme } from '@/Context/themecontext';
 
 
-const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string,loading:boolean) => void }> = ({ onCodeExecute }) => {
+const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error: string, loading: boolean) => void }> = ({ onCodeExecute }) => {
     const { theme } = useTheme();
     const { userData, setuserData } = useAppContext();
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
@@ -36,14 +36,16 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string,loadi
         setShowPopup(false);  // Close the popup after saving
     };
     const handleRunCode = async () => {
-        onCodeExecute('','',true);
+        onCodeExecute('', 0, '', true);
         try {
             const response = await axios.post('/api/code/execute', {
                 codeContent: code,
                 language: language,
             });
             if (response.status === 200) {
-                onCodeExecute(response.data.output, response.data.error,false);
+                console.log(response.data.output.executionTime);
+                
+                onCodeExecute(response.data.output.stdout, response.data.output.executionTime, response.data.error, false);
                 const file = !userData.recentfiles.some(file => file.title === fileName)
                 if (file) {
                     save();
@@ -51,12 +53,12 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, error: string,loadi
 
             }
             if (response.status === 500) {
-                onCodeExecute('', response.data.error,false);
+                onCodeExecute('', 0, response.data.error, false);
 
             }
 
         } catch (err) {
-            onCodeExecute('', 'Failed to execute code',false);
+            onCodeExecute('', 0, 'Failed to execute code', false);
 
         }
     };

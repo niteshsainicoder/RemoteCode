@@ -1,11 +1,11 @@
 import { useTheme } from '@/Context/themecontext';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { boolean } from 'zod';
 
 interface TerminalProps {
     title: string;
     data: string;
+    time: number;
     error: string;
     isOpen: boolean;
     loading: boolean;
@@ -13,9 +13,10 @@ interface TerminalProps {
     classname: string;
 }
 
-const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggle, loading, classname }) => {
+const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, onToggle, loading, classname }) => {
     const { theme } = useTheme();
     const [serVerRunning, setServerRunning] = useState<boolean>(false)
+    const [Time, setTime] = useState<string | null>(null)
     const servercheck = async () => {
         try {
             const response = await axios.get('/api/servercheck')
@@ -30,6 +31,24 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggl
             return false
         }
     }
+
+
+    const datatime = (time: number) => {
+  
+        if (time < 1) {
+            // Convert to milliseconds (ms)
+            return `${(time * 1000).toFixed(3)} ms`;
+        } else {
+            // Show in seconds (s)
+            return `${time.toFixed(3)} s`;
+        }
+    }
+
+
+    useEffect(() => {
+        setTime(datatime(time));
+    }, [time])
+
     useEffect(() => {
         servercheck().then((data) => {
             setServerRunning(data);
@@ -65,7 +84,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, error, onToggl
             >
                 {loading ? <p className=' w-full h-full flex items-center justify-center'>Loading <span className='blinking-dot'></span><span className='blinking-dot'></span></p> : <pre className={`w-full h-fit whitespace-pre-wrap break-words ${error ? 'text-red-500' : ' text-green-500'} `}>
                     {data
-                        ? `${data}`
+                        ? `${data} \n ${Time}`
                         : error
                         && `${error}`}
                     <span className="blinking-cursor"></span>
