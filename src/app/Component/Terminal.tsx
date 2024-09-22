@@ -17,7 +17,7 @@ interface TerminalProps {
 const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, onToggle, loading, classname }) => {
     const { theme } = useTheme();
     const [serVerRunning, setServerRunning] = useState<boolean>(false)
-    const [Time, setTime] = useState<string >('')
+    const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
         try {
             const response = await axios.get('/api/servercheck')
@@ -35,18 +35,18 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, o
 
 
     const datatime = (time: number) => {
-            // If the time is less than 1 second, convert to milliseconds
-            if (time < 1) {
-                return `${(time * 1000).toFixed(3)} ms`;
-            } else {
-                return `${time.toFixed(3)} s`;
-            }
+        // If the time is less than 1 second, convert to milliseconds
+        if (time < 1) {
+            return `${(time * 1000).toFixed(3)} ms`;
+        } else {
+            return `${time.toFixed(3)} s`;
         }
-    
+    }
+
 
 
     useEffect(() => {
-    console.log(datatime(time))
+        setTime(datatime(time))
     }, [time])
 
     useEffect(() => {
