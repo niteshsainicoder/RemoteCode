@@ -37,9 +37,9 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time, error, o
     const datatime = (time: number) => {
         // If the time is less than 1 second, convert to milliseconds
         if (time < 1) {
-            return `${(time * 1000).toFixed(3)} ms`;
+            return `${(time * 1000)} ms`;
         } else {
-            return `${time.toFixed(3)} s`;
+            return `${time} s`;
         }
     }
 
