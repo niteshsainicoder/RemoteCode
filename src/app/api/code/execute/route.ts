@@ -2,7 +2,6 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  console.time("time");
   const body = await req.json();
   const { codeContent, language } = body;
 
@@ -14,11 +13,12 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-  const response=  await axios.post(`
+    const response = await axios.post(
+      `
       ${process.env.SERVER_URL}run`,
       { language, codeContent },
       {
-        headers: {'x-api-key': process.env.API_KEY },
+        headers: { "x-api-key": process.env.API_KEY },
       }
     );
 
@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
       },
       { status: 200 }
     );
-  
   } catch (error) {
     console.log(error);
 
