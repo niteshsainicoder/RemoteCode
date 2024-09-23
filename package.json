@@ -12,6 +12,7 @@
     "@codemirror/lang-javascript": "^6.2.2",
     "@hookform/resolvers": "^3.9.0",
     "@monaco-editor/react": "^4.6.0",
+    "@nextui-org/tooltip": "^2.0.41",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",

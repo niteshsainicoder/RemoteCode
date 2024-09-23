@@ -34,7 +34,7 @@ body {
 
 /* Custom blinking cursor */
 .blinking-cursor::after {
-  content: '_';
+  content: '.';
   animation: blink 1s steps(2, start) infinite;
 }
 .blinking-dot::after {
