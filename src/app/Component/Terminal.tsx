@@ -62,6 +62,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
 
         onToggle(); // Only toggle if terminal is currently closed
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
