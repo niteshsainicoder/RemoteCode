@@ -151,9 +151,9 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
                     onChange={handleLanguageChange}
                 >
                     <option value="javascript">JavaScript</option>
-                    <option value="java" disable >Java</option>
+                    <option value="java" disabled >Java</option>
                     <option value="python">Python</option>
-                    <option value="cpp" disable >C++</option>
+                    <option value="cpp" disabled >C++</option>
                 </select>
 
 
