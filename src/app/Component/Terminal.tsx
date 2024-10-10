@@ -20,13 +20,13 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const servercheck = async () => {
         try {
             const response = await axios.get('/api/servercheck')
-            if (response.status === 200) {                
+            if (response.status === 200) {  
+                              
                 return true
             } else {
                 return false
                 
             }
-            console.log(response);
         }
         catch (error) {
             console.log(error)
@@ -55,7 +55,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     useEffect(() => {
         servercheck().then((data) => {
             setServerRunning(data);
-            console.log(data);
+            console.log(data,'hii');
         });
     }, []);
 

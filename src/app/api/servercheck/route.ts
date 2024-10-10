@@ -11,6 +11,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     attempt++;
     try {
       const response = await axios.get(url);
+      
       if (response.status === 200) {
                 
         return NextResponse.json(
