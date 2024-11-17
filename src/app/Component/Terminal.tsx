@@ -21,18 +21,15 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const servercheck = async () => {
         try {
             const response = await axios.get('/api/servercheck')
-            if (response.status === 200) {
-
-                return true
-            }
+            if (response.status == 200) {
+                setServerRunning(true);            }
 
         }
 
         catch (error) {
             console.log(error)
-            return false
         }
-        return false
+       
     }
     const datatime = (time: number) => {
         // If the time is less than 1 second, convert to milliseconds
@@ -46,10 +43,9 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
 
 
     useEffect(() => {
-        servercheck().then((data) => {
-            setServerRunning(data);
-        });
-    }, [setServerRunning]);
+        servercheck();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     useEffect(() => {
         setTime(datatime(time))
     }, [time])
