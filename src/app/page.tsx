@@ -14,7 +14,7 @@ export default function Home() {
   const [time, settime] = useState<number | null>();
   const [loading, setloading] = useState<boolean>(false);
   const [openFileIndex, setOpenFileIndex] = useState<number | null>(null); // Track the open file index
-
+const [serverRunning,setServerRunning] = useState(false);
   const handleToggle = (index: number) => {
     setOpenFileIndex(openFileIndex === index ? null : index); // Toggle the open state
   };
@@ -23,6 +23,7 @@ export default function Home() {
     settime(time)
     setloading(loading)
     seterror(error);
+    serverRunning 
   }
 
   const autologin = async () => {
@@ -32,8 +33,8 @@ export default function Home() {
         if (userData?.recentfiles?.length > 0) {
           setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: userData.recentfiles, currentfile: null })
         }
-        setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
-
+        else{     setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
+      }
       }
 
     } catch (error) {
@@ -74,6 +75,8 @@ export default function Home() {
             data={output || ''}
             time={time!}
             loading={loading}
+            serverRunning = {serverRunning}
+            setServerRunning={setServerRunning}
             error={error!}
             isOpen={openFileIndex === 1}
             onToggle={() => handleToggle(1)}
@@ -81,7 +84,7 @@ export default function Home() {
         </div>
       </div>
       <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-fit max-h-[full] min-h-[fit] md:w-4/6 flex justify-center items-center">
-        <CodeEditor onCodeExecute={onCodeExecute} />
+        <CodeEditor serverRunning={serverRunning} onCodeExecute={onCodeExecute} />
       </div>
     </main >
   );

@@ -9,37 +9,34 @@ interface TerminalProps {
     error: string;
     isOpen: boolean;
     loading: boolean;
+    serverRunning: boolean
+    setServerRunning: React.Dispatch<React.SetStateAction<boolean>>
     onToggle: () => void; // Callback to toggle the state
     classname: string;
 }
 
-const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, error, onToggle, loading, classname }) => {
+const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, error, onToggle, loading, classname, setServerRunning, serverRunning }) => {
     const { theme } = useTheme();
-    const [serVerRunning, setServerRunning] = useState<boolean>(false)
     const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
         try {
             const response = await axios.get('/api/servercheck')
-            if (response.status === 200) {  
-                              
+            if (response.status === 200) {
+
                 return true
-            } else {
-                return false
-                
             }
+
         }
+
         catch (error) {
             console.log(error)
             return false
         }
+        return false
     }
-
-
     const datatime = (time: number) => {
         // If the time is less than 1 second, convert to milliseconds
         if (time < 1) {
-            console.log(time);
-
             return `${Math.floor(time * 1000) / 1000} ms`;
         } else {
             return `${Math.floor(time * 100) / 100} s`;
@@ -49,22 +46,21 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
 
 
     useEffect(() => {
+        servercheck().then((data) => {
+            setServerRunning(data);
+        });
+    }, [setServerRunning]);
+    useEffect(() => {
         setTime(datatime(time))
     }, [time])
 
-    useEffect(() => {
-        servercheck().then((data) => {
-            setServerRunning(data);
-            console.log(data,'hii');
-        });
-    }, []);
 
     // Open terminal when new data arrives and terminal is not already open
     useEffect(() => {
 
         onToggle(); // Only toggle if terminal is currently closed
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -75,21 +71,20 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
                 className='w-full h-10  cursor-pointer font-bold antialiased text-center pt-2   flex  justify-between px-9 items-center'
             >
                 {title}
-                <sup className={`w-2 absolute left-28  top-3 rounded-full h-2 ${serVerRunning ? 'bg-green-500' : 'bg-red-500'}`}>
+                <sup className={`w-2 absolute left-28  top-3 rounded-full h-2 ${serverRunning ? 'bg-green-500' : 'bg-red-500'}`}>
                     <Tooltip
                         className='rounded-lg'
                         showArrow
                         placement="right"
-                        color={serVerRunning ? 'success' : 'warning'}
-                        content={serVerRunning ? 'Server Running' : 'Server Not Running'}
+                        content={serverRunning ? 'Server Running' : 'Server Not Running'}
                         classNames={{
                             base: [
                                 // arrow color
-                                "before:bg-neutral-400 dark:before:bg-white",
+                               `{ "before:bg-neutral-200 dark:before:bg-white"  ${theme == 'vs-dark' ? 'bg-stone-400' : ' bg-neutral-900'}}`,
                             ],
                             content: [
-                                "py-[6px] px-4 shadow-xl",
-                                "text-black bg-gradient-to-br from-white to-neutral-400",
+                                "py-[6px] px-4 shadow-xl  rounded-md " ,
+                                "text-gray-800 bg-gradient-to-br from-white to-neutral-400" ,
                             ],
                         }}
                     >

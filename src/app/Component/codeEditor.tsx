@@ -6,9 +6,10 @@ import Popup from './popup';
 import axios from 'axios';
 import { useAppContext } from '@/Context/context';
 import { useTheme } from '@/Context/themecontext';
+import { Tooltip } from '@nextui-org/tooltip';
 
 
-const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error: string, loading: boolean) => void }> = ({ onCodeExecute }) => {
+const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error: string, loading: boolean) => void, serverRunning: boolean }> = ({ onCodeExecute, serverRunning }) => {
     const { theme } = useTheme();
     const { userData, setuserData } = useAppContext();
     const editorRef = useRef<monacoEditor.editor.IStandaloneCodeEditor | null>(null);
@@ -44,7 +45,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
             });
             if (response.status === 200) {
                 console.log(response.data.output.executionTime);
-                
+
                 onCodeExecute(response.data.output.stdout, response.data.output.executionTime, response.data.error, false);
                 const file = !userData.recentfiles.some(file => file.title === fileName)
                 if (file) {
@@ -157,12 +158,26 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
                 </select>
 
 
-                <p
+                <button type='button' disabled={!code || !serverRunning}
                     onClick={handleRunCode}
                     className={`text-sm cursor-pointer ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-3 py-2 rounded-xl`}
                 >
-                    run
-                </p>
+                    <Tooltip isDisabled={serverRunning} showArrow={true} color={'danger'} content='Wait for server to start'  placement={'bottom'}
+                     classNames={{
+                        base: [
+                            // arrow color
+                            "before:bg-neutral-400 dark:before:bg-gay-500 m-4",
+                        ],
+                        content: [
+                            "py-[6px] px-4 shadow-xl  rounded-md " ,
+                            "text-red-800 bg-gradient-to-br from-white to-neutral-400",
+                        ],
+                    }}
+
+                    >
+                        run
+                    </Tooltip>
+                </button>
                 {userData.id && <> <p
                     onClick={save}
                     className={`text-sm cursor-pointer rotate-3 ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-2 py-1 rounded-xl`}
