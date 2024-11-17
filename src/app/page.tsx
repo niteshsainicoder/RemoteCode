@@ -9,7 +9,7 @@ import { useTheme } from "@/Context/themecontext";
 export default function Home() {
   const { theme } = useTheme();
   const { userData, setuserData } = useAppContext()
-  const [output, setoutput] = useState<string | null>('by the way default output good not need');
+  const [output, setoutput] = useState<string | null>('Nice to Meet You');
   const [error, seterror] = useState<string | null>('');
   const [time, settime] = useState<number | null>();
   const [loading, setloading] = useState<boolean>(false);

@@ -104,7 +104,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
                     {loading ? <p className=' w-full h-full flex items-center justify-center'>Loading <span className='blinking-dot'></span><span className='blinking-dot transition delay-100'></span></p> :
                         <pre className={`w-full h-fit whitespace-pre-wrap break-words ${error ? 'text-red-500' : ' text-grey-300'} `}>
                             {data
-                                ? `${data} `
+                                ? `${serverRunning ? data : 'Server Not Running'} `
                                 : error
                                 && `${error}`}
                             <span className="blinking-cursor"></span>
