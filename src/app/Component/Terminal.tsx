@@ -20,16 +20,17 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
         try {
-            const response = await axios.get('/api/servercheck')
+            const response = await axios.get('/api/servercheck', { timeout: 70000 });
             if (response.status == 200) {
-                setServerRunning(true);            }
+                setServerRunning(true);
+            }
 
         }
 
         catch (error) {
             console.log(error)
         }
-       
+
     }
     const datatime = (time: number) => {
         // If the time is less than 1 second, convert to milliseconds
@@ -44,7 +45,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
 
     useEffect(() => {
         servercheck();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         setTime(datatime(time))
@@ -76,11 +77,11 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
                         classNames={{
                             base: [
                                 // arrow color
-                               `{ "before:bg-neutral-200 dark:before:bg-white"  ${theme == 'vs-dark' ? 'bg-stone-400' : ' bg-neutral-900'}}`,
+                                `{ "before:bg-neutral-200 dark:before:bg-white"  ${theme == 'vs-dark' ? 'bg-stone-400' : ' bg-neutral-900'}}`,
                             ],
                             content: [
-                                "py-[6px] px-4 shadow-xl  rounded-md " ,
-                                "text-gray-800 bg-gradient-to-br from-white to-neutral-400" ,
+                                "py-[6px] px-4 shadow-xl  rounded-md ",
+                                "text-gray-800 bg-gradient-to-br from-white to-neutral-400",
                             ],
                         }}
                     >

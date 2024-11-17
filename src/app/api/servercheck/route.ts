@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const url = process.env.SERVER_URL!;
 
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url,{timeout: 90000});
       
       if (response.status === 200) {
                 
