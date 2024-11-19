@@ -18,6 +18,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`  ${inter.className} remove-scrollbar    `}>
@@ -27,6 +28,7 @@ export default function RootLayout({
            <div className="w-full min-h-screen select-none caret-inherit  flex flex-col"> 
             <Nav />
             {children}
+
             </div>
           </ThemeWrapper>
         </AppWrapper></body>

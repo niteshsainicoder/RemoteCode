@@ -134,12 +134,12 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
 
     }, [userData.currentfile])
     return (
-        <div className={`w-full max-w-[full] relative  h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
-            <div className='flex items-center flex-wrap flex-grow p-1 px-2 mb-2 gap-4'>
-                <h1 className={`px-1 p-1 w-fit min-w-40 max-w-40 border  text-center text-sm text-wrap overflow-x-scroll remove-scrollbar ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'} rounded-lg`}>{fileName}</h1>
+        <div className={`w-full max-w-[full] relative   h-[500px] min-h[600px]   transition duration-200 ${theme === 'light' ? 'bg-neutral-100 text-black' : 'bg-zinc-900 text-white'}`}>
+            <div className={`flex items-center min-h-[50px] border-b-[2px] ${theme === 'light' ?'border-stone-700':'border-stone-200'}   justify-start flex-wrap flex-grow p-1 px-2  gap-4`}>
+                <h1 className={`px-1 py-1 w-fit min-w-40 max-w-40 border  text-center text-sm text-wrap overflow-x-scroll remove-scrollbar ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'} rounded-lg`}>{fileName}</h1>
                 <button
                     type='reset'
-                    className={`rotate-90 text-2xl ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'} rounded-full p-1`}
+                    className={` text-xl border-[1px] px-3 ${theme === 'vs-dark' ? 'hover:bg-neutral-500 border-stone-200' : 'hover:bg-neutral-200 border-stone-800'} rounded-lg  py-[] `}
                     onClick={() => setShowPopup(!showPopup)}  // Show the popup when the button is clicked
                 >
                     &#9998;
@@ -147,7 +147,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
 
                 <select
                     title='lang'
-                    className={`rounded-md text-sm border p-1 text-center ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'}`}
+                    className={`rounded-md text-sm border px-1 py-[2px] text-center ${theme === 'light' ? 'bg-neutral-100 text-black border-black ' : 'bg-neutral-900 border-white text-white'}`}
                     value={language}
                     onChange={handleLanguageChange}
                 >
@@ -160,7 +160,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
 
                 <button type='button' disabled={!code || !serverRunning}
                     onClick={handleRunCode}
-                    className={`text-sm cursor-pointer ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-3 py-2 rounded-xl`}
+                    className={`text-sm cursor-pointer border ${theme === 'vs-dark' ? 'hover:bg-neutral-500 border-stone-200 ' : 'hover:bg-neutral-200 border-stone-800'}  px-3 py-[2px] rounded-lg`}
                 >
                     <Tooltip isDisabled={serverRunning} showArrow={true} color={'danger'} content='Wait for server to start' placement={'bottom'}
                         classNames={{
@@ -175,7 +175,7 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
                         }}
 
                     >
-                        run
+                        Run
                     </Tooltip>
                 </button>
                 {userData.id && <> <p

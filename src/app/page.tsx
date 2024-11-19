@@ -6,7 +6,8 @@ import Terminal from "./Component/Terminal";
 import { useAppContext } from "@/Context/context";
 import axios from "axios";
 import { useTheme } from "@/Context/themecontext";
-export default function Home() {
+import Link from "next/link";
+export default  function Home() {
   const { theme } = useTheme();
   const { userData, setuserData } = useAppContext()
   const [output, setoutput] = useState<string | null>('Nice to Meet You');
@@ -61,7 +62,8 @@ const [serverRunning,setServerRunning] = useState(false);
   }, [userData])
 
   return (
-    <main className={` flex  flex-col-reverse gap-2 md:flex-row flex-1  max-h-full min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-light text-neutral-900`}  items-start justify-evenly px-4 py-4`} >
+    <main className={`  flex flex-col flex-grow  gap-4  max-h-full min-h-full h-full border-2 border-zinc-700 ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-200` : `bg-light text-neutral-900`}  items-center justify-cetner px-4 py-4`} >
+    <div className="flex w-full h-full flex-grow flex-col-reverse gap-2 sm:flex-row">
       <div className={`relative w-full rounded-lg border-2 overflow-hidden border-zinc-700 h-full max-h-[500px] md:min-h-[504px] md:w-2/6 flex flex-col`}>
         <div className="flex flex-col gap-[1px] min-h-[500px]">
           <Recentfiles
@@ -86,6 +88,10 @@ const [serverRunning,setServerRunning] = useState(false);
       <div className="w-full max-w-full rounded-lg overflow-hidden border-2 border-zinc-700 h-fit max-h-[full] min-h-[fit] md:w-4/6 flex justify-center items-center">
         <CodeEditor serverRunning={serverRunning} onCodeExecute={onCodeExecute} />
       </div>
+      </div>
+      <div className="w-full h-12   flex justify-center items-center ">Developed By <Link href={'https://niteshdev.vercel.app'} className="text-blue-300 underline underline-offset-2 pl-1 hover: " >Nitesh Saini </Link></div>
+   
+    
     </main >
   );
 }
