@@ -24,7 +24,6 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
     const handleEditorChange = (value: string | undefined) => {
         if (value !== code) {
             setCode(value || '');
-            console.log('Current model value:', value);
         }
     };
 
@@ -42,7 +41,8 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
             const response = await axios.post('/api/code/execute', {
                 codeContent: code,
                 language: language,
-            });
+                
+            },{timeout:92000});
             if (response.status === 200) {
                 console.log(response.data.output.executionTime);
 
@@ -162,17 +162,17 @@ const CodeEditor: React.FC<{ onCodeExecute: (output: string, time: number, error
                     onClick={handleRunCode}
                     className={`text-sm cursor-pointer ${theme === 'vs-dark' ? 'hover:bg-neutral-800' : 'hover:bg-neutral-200'}  px-3 py-2 rounded-xl`}
                 >
-                    <Tooltip isDisabled={serverRunning} showArrow={true} color={'danger'} content='Wait for server to start'  placement={'bottom'}
-                     classNames={{
-                        base: [
-                            // arrow color
-                            "before:bg-neutral-400 dark:before:bg-gay-500 m-4",
-                        ],
-                        content: [
-                            "py-[6px] px-4 shadow-xl  rounded-md " ,
-                            "text-red-800 bg-gradient-to-br from-white to-neutral-400",
-                        ],
-                    }}
+                    <Tooltip isDisabled={serverRunning} showArrow={true} color={'danger'} content='Wait for server to start' placement={'bottom'}
+                        classNames={{
+                            base: [
+                                // arrow color
+                                "before:bg-neutral-400 dark:before:bg-gay-500 m-4",
+                            ],
+                            content: [
+                                "py-[6px] px-4 shadow-xl  rounded-md ",
+                                "text-red-800 bg-gradient-to-br from-white to-neutral-400",
+                            ],
+                        }}
 
                     >
                         run

@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       { language, codeContent },
       {
         headers: { "x-api-key": process.env.API_KEY },
+        timeout:90000
       }
     );
 
