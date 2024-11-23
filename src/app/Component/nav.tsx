@@ -29,8 +29,8 @@ const Nav = () => {
          un
         </p>
       </div>
-      <div className="w-4/12 h-fit  text-right flex justify-evenly gap-7 ">
-        <Link  href={`${userData.name ? '/' : `/login`}`}>
+      <div className="w-4/12 h-fit  text-right flex justify-evenly gap-7  ">
+        <Link className='cursor-pointer px-2 rounded-lg '  href={`${userData.name ? '/' : `/login`}`}>
           {datatoshow}
         </Link>
       </div>
