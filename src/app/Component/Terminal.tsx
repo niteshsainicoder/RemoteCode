@@ -1,3 +1,4 @@
+'use client';
 import { useTheme } from '@/Context/themecontext';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -23,8 +24,10 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
             const response = await axios.get('/api/servercheck', { timeout: 70000 });
             if (response.status == 200) {
                 setServerRunning(true);
+
             }
 
+            console.log(response);
         }
 
         catch (error) {
