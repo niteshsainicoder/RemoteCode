@@ -20,8 +20,11 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const { theme } = useTheme();
     const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
+        const url = process.env.SERVER_URL!;
+ console.log("this is the url ",url);
+ 
         try {
-            const response = await axios.get(process.env.SERVER_URL!,{timeout: 90000})
+            const response = await axios.get(url,{timeout: 90000})
             if (response.status == 200) {
                 setServerRunning(true);
 
@@ -31,7 +34,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
         }
 
         catch (error) {
-            console.log(error)
+            console.log(error,"this is error")
         }
 
     }
