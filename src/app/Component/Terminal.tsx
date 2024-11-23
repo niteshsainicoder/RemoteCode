@@ -20,7 +20,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const { theme } = useTheme();
     const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
-        const url = process.env.SERVER_URL!;
+        const url = process.env.NEXT_PUBLIC_SERVER_URL!;
  console.log("this is the url ",url);
  
         try {
