@@ -34,7 +34,7 @@ const [serverRunning,setServerRunning] = useState(false);
         if (userData?.recentfiles?.length > 0) {
           setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: userData.recentfiles, currentfile: null })
         }
-        else{     setuserData({ id: response.data.data.id, name: response.data.data.username, recentfiles: [], currentfile: null })
+        else{     setuserData({ id: response.data.data?.id, name: response.data.data?.username, recentfiles: [], currentfile: null })
       }
       }
 
@@ -46,7 +46,6 @@ const [serverRunning,setServerRunning] = useState(false);
 
   useEffect(() => {
     try {
-      axios.get('/api/servercheck')
       autologin()
 
     } catch (error) {

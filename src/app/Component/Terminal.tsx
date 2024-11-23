@@ -21,7 +21,6 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
         const url = process.env.NEXT_PUBLIC_SERVER_URL!;
- console.log("this is the url ",url);
  
         try {
             const response = await axios.get(url,{timeout: 90000})
@@ -29,8 +28,6 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
                 setServerRunning(true);
 
             }
-
-            console.log(response,"this is data");
         }
 
         catch (error) {
