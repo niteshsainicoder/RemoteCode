@@ -27,7 +27,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
 
             }
 
-            console.log(response);
+            console.log(response,"this is data");
         }
 
         catch (error) {
