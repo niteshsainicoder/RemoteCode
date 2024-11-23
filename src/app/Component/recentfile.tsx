@@ -38,7 +38,7 @@ const { theme } = useTheme();
   };
 
   useEffect(() => {
-    if (userData.id !== '') {
+    if (userData.id != '') {
       getrecentfile();
     }
 
