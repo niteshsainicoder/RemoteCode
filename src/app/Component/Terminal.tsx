@@ -21,7 +21,7 @@ const Terminal: React.FC<TerminalProps> = ({ title, data, isOpen, time = 0.0, er
     const [Time, setTime] = useState<string>('')
     const servercheck = async () => {
         try {
-            const response = await axios.get('/api/servercheck', { timeout: 70000 });
+            const response = await axios.get(process.env.SERVER_URL!,{timeout: 90000})
             if (response.status == 200) {
                 setServerRunning(true);
 
