@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async headers() {
-    return [
-      {
+  return [
+      { 
         source: "/api/:path*", // Apply to all API routes
         headers: [
           {
