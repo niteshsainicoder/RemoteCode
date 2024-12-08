@@ -1,3 +1,4 @@
+import { after, before } from "node:test";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -9,6 +10,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      
       colors: {
         light: "#f6f4f2",
         dark: "#0f0f0f",
@@ -30,7 +32,7 @@ const config: Config = {
       },
     },
   },
-  
+
   plugins: [],
 };
 export default config;
