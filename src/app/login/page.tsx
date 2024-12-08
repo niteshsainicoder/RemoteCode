@@ -2,6 +2,7 @@
 import { useAppContext } from '@/Context/context';
 import { useTheme } from '@/Context/themecontext';
 import axios from 'axios';
+import { error } from 'console';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -14,11 +15,14 @@ const LoginSignup = () => {
     const [response, setResponse] = useState<any>(null);
     const router = useRouter();
     const [status, setStatus] = useState<number | null>(null);
+    const [cause, setCause] = useState<boolean>(false);
     const { theme } = useTheme();
     useEffect(() => {
         setResponse(null);
         setWrong(false);
         setStatus(null);
+        console.log(errors, wrong, 'nice to meet you');
+
     }, []);
 
     const Login = async (data: any) => {
@@ -27,8 +31,11 @@ const LoginSignup = () => {
                 ...data
             }, { withCredentials: true });
             setStatus(response.status);
+            console.log(response);
+
             setResponse(response.data);
         } catch (error) {
+
             if (axios.isAxiosError(error) && error.response) {
                 setStatus(error.response.status);
             }
@@ -38,32 +45,77 @@ const LoginSignup = () => {
     useEffect(() => {
         if (status === 400) {
             setWrong(true);
+            setCause(response?.message ? true : false);
+
             setTimeout(() => {
                 setWrong(false);
-            }, 3000);
+            }, 7000);
         } else if (status === 200) {
             setuserData({ id: response.user._id, name: response?.user?.username, recentfiles: response?.user?.codemodel, currentfile: null });
-            router.push('/');
+            setCause(true);
+            setTimeout(() => {
+                
+                router.push('/');
+            },2000)
 
         }
+        setCause(response?.message ? true : false);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status]);
 
-    return (
-        <div className={`h-full flex-1 w-screen  flex flex-col justify-center items-center  ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-600` : `bg-zinc-100 text-neutral-900`} `}>
 
-            <form onSubmit={handleSubmit(Login)} className={`w-11/12 m-4  max-w-[400px] md:w-[400px] transition-all relative ${theme == 'vs-dark' ? `bg-zinc-600 text-neutral-800` : `bg-zinc-200 text-neutral-900`} h-[300px] flex flex-col rounded-md justify-center items-center`}>
+    useEffect(() => {
+        if (cause) {
+
+            const timer = setTimeout(() => {
+                setCause(false);
+
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+
+    }, [cause])
+    return (
+        <div className={`h-full flex-1 w-screen   flex flex-col justify-center items-center  ${theme == 'vs-dark' ? `bg-neutral-900 text-neutral-600` : `bg-zinc-100 text-neutral-900`} `}>
+
+            <form onSubmit={handleSubmit(Login)} className={`w-11/12 m-4  max-w-[400px] md:w-[400px] transition-all relative ${theme == 'vs-dark' ? `bg-zinc-600 text-neutral-800 ring-neutral-400` : `bg-zinc-200 text-neutral-900 ring-zinc-400`} h-[300px] flex flex-col rounded-md justify-center items-center  ring $`}>
+                <div
+                    className={`absolute left-1/2 -translate-x-1/2 p-1 transition-all duration-1000 ease-in-out  ${cause
+                        ? 'top-[10%] opacity-100 z-20 '
+                            : '-top-[50%] opacity-0 -z-20 '
+                        } w-1/2 max-w-11/12line-clamp-1 ring text-center ${theme == 'vs-dark' ? `bg-zinc-400 text-neutral-700 ring-neutral-400` : `bg-zinc-200 text-neutral-900 ring-slate-600`} rounded-md`}
+                >
+                    <h1 className='text-nowrap line-clamp-1 truncate  max-w-full'>{response?.message}</h1>
+                </div>
+
+
                 <span className='text-3xl font-bold antialiased text-zinc-800'>Account</span>
 
-                {errors.username && <span
-                    className='left-0 w-11/12 text-xs text-red-500 antialiased '>This field is required</span>}
-                <input {...register('username', { required: true })} placeholder="username" className={` relative w-11/12 md:w-9/12 focus:outline-none mt-4 ${errors.username&&'mt-0'} h-9 rounded-xl border-2 ${errors || wrong ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`}
+
+                <input {...register('username', { required: true })} placeholder="username" className={`
+              w-11/12 md:w-9/12 h-9 mt-4 mb-2 pl-4 rounded-xl 
+    caret-teal-800 text-wrap border
+    ring-2
+    focus:outline-none focus:ring-2
+    ${errors.username ? 'mt-0' : ''} 
+    ${errors.username || wrong ?
+                        'ring-red-400 hover:ring-red-500 focus:ring-red-400' :
+                        ' ring-teal-400 hover:ring-cyan-400 focus:ring-cyan-400'}  `}
                 />
 
 
-                {errors.password && <span
-                    className='left-0 w-11/12 text-xs text-red-500 antialiased p-0 '>This field is required</span>}
-                <input {...register('password', { required: true })} type="password" placeholder="Password" className={`w-11/12 md:w-9/12 focus:outline-none h-9 mt-4 ${errors.username&&'mt-0'} mb-2 rounded-xl border-2 ${errors || wrong ? 'border-red-400 hover:border-red-700' : 'border-teal-300'} caret-teal-800 pl-4 text-wrap`}
+
+                <input {...register('password', { required: true })} type="password" placeholder="Password" className={`
+  w-11/12 md:w-9/12 h-9 mt-4 mb-2 pl-4 rounded-xl 
+    caret-teal-800 text-wrap 
+    ring-2 
+    focus:outline-none focus:ring-2 
+    ${errors.password ? 'mt-0' : ''} 
+    ${errors.password || wrong ?
+                        'ring-red-400 hover:ring-red-500 focus:ring-red-400' :
+                        ' ring-teal-400 hover:ring-cyan-400 focus:ring-cyan-400'}  
+                       ${errors.password && `before:content-['please enter a valid password'] after:ml-1 after:text-red-500 `}        `}
                 />
 
                 <button
@@ -80,13 +132,12 @@ const LoginSignup = () => {
                     </span>
                 </h6>
                 <Link
-                    className={` ${status === 200 && 'scale-105 transition-all duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute link`}
+                    className={` ${status === 200 && 'scale-105 transition-all relative duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute link`}
                     href="/"
                 >
-                    {'<-'} back to home
+                    <span className=" before:inline-block before:content-['<-'] before:hover:-translate-x-1 before:font-extrabold before:transition-all before:duration-700 before:translate-x-0  "> back to home </span>
                 </Link>
             </form>
-
 
         </div >
     );
