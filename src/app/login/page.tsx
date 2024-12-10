@@ -132,7 +132,7 @@ const LoginSignup = () => {
                     </span>
                 </h6>
                 <Link
-                    className={` ${status === 200 && 'scale-105 transition-all relative duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute link`}
+                    className={` ${status === 200 && 'scale-105 transition-all relative duration-300 text-zinc-800 animate-bounce  '} font-semibold antialiased left-2 top-2 md:top-4 absolute `}
                     href="/"
                 >
                     <span className=" before:inline-block before:content-['<-'] before:hover:-translate-x-1 before:font-extrabold before:transition-all before:duration-700 before:translate-x-0  "> back to home </span>
